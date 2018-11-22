@@ -2,16 +2,31 @@ package stud.hkr;
 
 public class Customer {
 
-    public String ssn;
-    public String name;
-    public String address;
-    public String telephoneNumber;
+    private String ssn;
+    private String name;
+    private String address;
+    private String telephoneNumber;
 
-    public Customer(String ssn, String name, String address, String telephoneNumber) {
-        this.ssn = ssn;
-        this.name = name;
-        this.address = address;
-        this.telephoneNumber = telephoneNumber;
+    public Customer(String id, String n, String a, String tn) {
+        ssn = id;
+        name = n;
+        address = a;
+        telephoneNumber = tn;
     }
-    
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
 }
