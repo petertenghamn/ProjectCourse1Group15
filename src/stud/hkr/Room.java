@@ -9,16 +9,11 @@ public class Room {
     private boolean isBooked;
 
     public Room(int rn, int nob, double ppn, boolean hb, boolean ib) {
-
         roomNumber = rn;
         numberOfBeds = nob;
         pricePerNight = ppn;
         hasBalcony = hb;
         isBooked = ib;
-
-        //return room = ("\n\nRoom number:" + rn + "\nNumber Of Beds:" + nob +
-       //         "\nNightly Price:" + ppn + "\nBalcony:" + hb +
-        //        "\nAvailable:" + ib);
     }
 
     public int getRoomNumber() {
