@@ -1,10 +1,17 @@
 package stud.hkr;
+import java.util.ArrayList;
 
 public class HotelLogic {
 
+    Room[] rooms = new Room[100];
+    ArrayList<Customer> customers = new ArrayList<>();
 
     public void getCustomer(String ssn){
-        //get a Customer
+        for (Customer c : customers){
+            if (c.getSsn() == ssn){
+                //return a customer? or error
+            }
+        }
     }
 
     public void getCustomers(){
@@ -40,6 +47,7 @@ public class HotelLogic {
     }
 
     public void editBooking(String ssn, Booking booking){
-        //change current booking info
+        //get persons info first to check booking and create a new one
+        //over-write booking info
     }
 }
