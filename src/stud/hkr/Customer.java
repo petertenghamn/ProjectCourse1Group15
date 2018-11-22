@@ -2,10 +2,10 @@ package stud.hkr;
 
 public class Customer {
 
-    private String ssn;
-    private String name;
-    private String address;
-    private String telephoneNumber;
+    public String ssn;
+    public String name;
+    public String address;
+    public String telephoneNumber;
 
     public Customer(String ssn, String name, String address, String telephoneNumber) {
         this.ssn = ssn;
@@ -13,8 +13,5 @@ public class Customer {
         this.address = address;
         this.telephoneNumber = telephoneNumber;
     }
-
-    public String getName() {
-        return name;
-    }
+    
 }
