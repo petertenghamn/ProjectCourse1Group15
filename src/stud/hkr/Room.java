@@ -2,4 +2,59 @@ package stud.hkr;
 
 public class Room {
 
+    private int roomNumber;
+    private int numberOfBeds;
+    private double pricePerNight;
+    private boolean hasBalcony;
+    private boolean isBooked;
+
+    public Room(int rn, int nob, double ppn, boolean hb, boolean ib) {
+
+        roomNumber = rn;
+        numberOfBeds = nob;
+        pricePerNight = ppn;
+        hasBalcony = hb;
+        isBooked = ib;
+
+        return room = ("\n\nRoom number:" + rn + "\nNumber Of Beds:" + nob +
+                "\nNightly Price:" + ppn + "\nBalcony:" + hb +
+                "\nAvailable:" + ib);
+    }
+
+    public getRoomNumber() {
+        return roomNumber;
+    }
+
+    public getNumberOfBeds() {
+        return numberOfBeds;
+    }
+
+    public getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public getHasBalcony() {
+        return hasBalcony;
+    }
+
+    public getIsBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
 }
+
+/*
+private
+
+-room number int
+-number of beds int
+-has balcony boolean
+-price per night
+-is booked or not boolean
+
+public
+room (roomnr: int, numberOfBeds: int, hasBalcony: boolean, priceByNight: double)
+ */
