@@ -16,28 +16,28 @@ public class Room {
         hasBalcony = hb;
         isBooked = ib;
 
-        return room = ("\n\nRoom number:" + rn + "\nNumber Of Beds:" + nob +
-                "\nNightly Price:" + ppn + "\nBalcony:" + hb +
-                "\nAvailable:" + ib);
+        //return room = ("\n\nRoom number:" + rn + "\nNumber Of Beds:" + nob +
+       //         "\nNightly Price:" + ppn + "\nBalcony:" + hb +
+        //        "\nAvailable:" + ib);
     }
 
-    public getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
 
-    public getNumberOfBeds() {
+    public int getNumberOfBeds() {
         return numberOfBeds;
     }
 
-    public getPricePerNight() {
+    public double getPricePerNight() {
         return pricePerNight;
     }
 
-    public getHasBalcony() {
+    public boolean getHasBalcony() {
         return hasBalcony;
     }
 
-    public getIsBooked() {
+    public boolean getIsBooked() {
         return isBooked;
     }
 
