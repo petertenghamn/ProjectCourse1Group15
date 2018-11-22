@@ -9,7 +9,6 @@ public class Room {
     private boolean isBooked;
 
     public Room(int rn, int nob, double ppn, boolean hb, boolean ib) {
-
         roomNumber = rn;
         numberOfBeds = nob;
         pricePerNight = ppn;
