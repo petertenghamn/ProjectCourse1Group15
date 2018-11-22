@@ -1,10 +1,8 @@
 package stud.hkr;
-
 import java.util.Scanner;
 
 public class Main {
-
-    Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         Main hotelApp = new Main();
@@ -12,14 +10,12 @@ public class Main {
     }
 
     private void runProgram() {
-
-
         boolean running = true;
-
+        HotelLogic logic = new HotelLogic();
+      
         do {
             drawMenu();
-            HotelLogic logic = new HotelLogic();
-
+            
             System.out.print("\nSelect Action: ");
             int choice = input.nextInt();
 
@@ -63,6 +59,5 @@ public class Main {
         System.out.println("|  4.) Cancel Reservations  |");
         System.out.println("|  5.) Exit                 |");
         System.out.println("-----------------------------");
-
     }
 }
