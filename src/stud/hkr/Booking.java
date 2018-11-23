@@ -25,4 +25,20 @@ public class Booking {
         return totalPrice;
     }
 
+    public void checkInCustomer(){
+        for (Room r : roomList){
+            if (!r.isBooked()) {
+                r.setBooked(true);
+            }
+            else {
+                System.out.println("Rooms are already booked!");
+            }
+        }
+    }
+
+    public void checkOutCustomer(){
+        for (Room r : roomList){
+            r.setBooked(false);
+        }
+    }
 }

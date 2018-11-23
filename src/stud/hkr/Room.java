@@ -6,14 +6,14 @@ public class Room {
     private int numberOfBeds;
     private double pricePerNight;
     private boolean hasBalcony;
-    private boolean isBooked;
+    private boolean booked;
 
     public Room(int rn, int nob, double ppn, boolean hb, boolean ib) {
         roomNumber = rn;
         numberOfBeds = nob;
         pricePerNight = ppn;
         hasBalcony = hb;
-        isBooked = ib;
+        booked = ib;
     }
 
     public int getRoomNumber() {
@@ -32,12 +32,12 @@ public class Room {
         return hasBalcony;
     }
 
-    public boolean getIsBooked() {
-        return isBooked;
+    public boolean isBooked() {
+        return booked;
     }
 
-    public void setBooked(boolean booked) {
-        isBooked = booked;
+    public void setBooked(boolean b) {
+        booked = b;
     }
 }
 
