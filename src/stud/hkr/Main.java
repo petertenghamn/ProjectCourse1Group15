@@ -96,13 +96,28 @@ public class Main {
 
                         switch (subChoice) {
                             case 1:
+                                //add room
+                                System.out.println("Please enter the room number: "); //make this automatic so there are no duplicates
+                                int rn = input.nextInt();
+                                input.nextLine();
 
+                                System.out.println("Please enter the number of beds in the room: ");
+                                int nob = input.nextInt();
+                                input.nextLine();
+
+                                System.out.println("Please enter the price per night of the room: ");
+                                double ppn = input.nextDouble();
+                                input.nextLine();
+
+                                //ask if the room has a balcony or not (for now just no)
+                                
+                                logic.addRoom(rn, nob, ppn, false, false);
                                 break;
                             case 2:
-
+                                //view all rooms
                                 break;
                             case 3:
-
+                                //view all available rooms
                                 break;
                             case 4:
                                 //return to main menu
