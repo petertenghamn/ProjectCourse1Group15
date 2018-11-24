@@ -60,7 +60,7 @@ public class HotelLogic {
         rooms.add(r);
     }
 
-    public void checkInCustomer(String ssn, Booking b){
+    public boolean checkInCustomer(String ssn, Booking b){
         //check in a customer to an available room
         Customer customer = null;
         for (Customer c : customers){
@@ -74,15 +74,32 @@ public class HotelLogic {
 
             //attach booking to the user and check them in
             customer.checkIn(b);
+
+            return true;
         }
         else {
-            System.out.println("Customer not found!");
+            return false;
         }
     }
 
-    public void checkOutCustomer(String ssn, int bookingnbr){
+    public boolean checkOutCustomer(String ssn, Booking b){
         //check out a customer out of a room currently used
+        Customer customer = null;
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                customer = c;
+            }
+        }
 
+        if (customer != null){
+            //remove booking from customer after checkout
+            customer.checkOut(b);
+
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void editBooking(String ssn, Booking booking){

@@ -36,6 +36,11 @@ public class Customer {
         booking.checkInCustomer();
     }
 
+    public void checkOut(Booking b){
+        booking = null;
+        b.checkOutCustomer();
+    }
+
     public Booking getBooking() {
         return booking;
     }

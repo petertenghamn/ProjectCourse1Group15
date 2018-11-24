@@ -50,6 +50,8 @@ public class Main {
 
     private void drawMenu() {
 
+        //change all options to hotellogic methods
+
         System.out.println("_____________________________");
         System.out.println("|   Welcome Dear Employee   |");
         System.out.println("|                           |");
