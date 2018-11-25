@@ -41,7 +41,7 @@ public class HotelLogic {
         //get list of Rooms not booked
         ArrayList<Room> output = new ArrayList<>();
         for (Room r : rooms){
-            if (r.isBooked()){
+            if (!r.isBooked()){
                 output.add(r);
             }
         }

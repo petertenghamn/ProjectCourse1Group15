@@ -19,6 +19,7 @@ public class Main {
             
             System.out.print("\nSelect Action: ");
             int choice = input.nextInt();
+            input.nextLine();
 
             boolean subMenu = true;
             int subChoice;
@@ -30,20 +31,21 @@ public class Main {
 
                         System.out.print("\nSelect Action: ");
                         subChoice = input.nextInt();
+                        input.nextLine();
 
                         switch (subChoice){
                             case 1:
                                 //add a customer
-                                System.out.println("Please enter the customers social security number: ");
+                                System.out.print("Please enter the customers social security number: ");
                                 String id = input.nextLine(); //this input needs to be checked to make sure its a unique key later
 
-                                System.out.println("Please enter the customers name: ");
+                                System.out.print("Please enter the customers name: ");
                                 String name = input.nextLine();
 
-                                System.out.println("Please enter the customers address");
+                                System.out.print("Please enter the customers address: ");
                                 String address = input.nextLine();
 
-                                System.out.println("Please enter the customers telephone number: ");
+                                System.out.print("Please enter the customers telephone number: ");
                                 String tele = input.nextLine();
 
                                 logic.addCustomer(id, name, address, tele);
@@ -59,10 +61,10 @@ public class Main {
                                 break;
                             case 3:
                                 //view specific customer
-                                System.out.println("Please enter the name of the customer: ");
-                                String cName = input.nextLine();
+                                System.out.print("Please enter the social security number of the customer: ");
+                                String cSsn = input.nextLine();
 
-                                Customer c = logic.getCustomer(cName);
+                                Customer c = logic.getCustomer(cSsn);
 
                                 if (c != null){
                                     System.out.println("---Customer information---");
@@ -93,19 +95,20 @@ public class Main {
 
                         System.out.print("\nSelect Action: ");
                         subChoice = input.nextInt();
+                        input.nextLine();
 
                         switch (subChoice) {
                             case 1:
                                 //add room
-                                System.out.println("Please enter the room number: "); //make this automatic so there are no duplicates
+                                System.out.print("Please enter the room number: "); //make this automatic so there are no duplicates
                                 int rn = input.nextInt();
                                 input.nextLine();
 
-                                System.out.println("Please enter the number of beds in the room: ");
+                                System.out.print("Please enter the number of beds in the room: ");
                                 int nob = input.nextInt();
                                 input.nextLine();
 
-                                System.out.println("Please enter the price per night of the room: ");
+                                System.out.print("Please enter the price per night of the room: ");
                                 double ppn = input.nextDouble();
                                 input.nextLine();
 
@@ -114,18 +117,57 @@ public class Main {
                                 logic.addRoom(rn, nob, ppn, false, false);
                                 break;
                             case 2:
-                                //view all rooms
+                                //view requested room
+                                System.out.print("Please enter the room number: ");
+                                int rNbr = input.nextInt();
+                                input.nextLine();
+
+                                Room room = logic.getRoom(rNbr);
+
+                                if (room != null){
+                                    System.out.println("---Room information---");
+                                    System.out.println("Number of beds: " + room.getNumberOfBeds());
+                                    System.out.println("Has balcony: " + (room.getHasBalcony() ? "Yes" : "No"));
+                                    System.out.println("Cost per night: " + room.getPricePerNight());
+                                    System.out.println("Available: " + (!room.isBooked() ? "Yes" : "No"));
+                                }
+                                else {
+                                    System.out.println("Room could not be found!");
+                                }
                                 break;
                             case 3:
-                                //view all available rooms
+                                //view all rooms
+                                ArrayList<Room> rooms = logic.getRooms();
+
+                                //print all rooms
+                                for (Room r : rooms) {
+                                    System.out.printf("%s%s%s%s%n",
+                                            "Room [" + r.getRoomNumber() + "]",
+                                            ", Beds: " + r.getNumberOfBeds(),
+                                            ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                            ", Cost Per Night: " + r.getPricePerNight());
+                                }
                                 break;
                             case 4:
+                                //view all available rooms
+                                ArrayList<Room> aRooms = logic.getAvailableRooms();
+
+                                //print all rooms
+                                for (Room r : aRooms) {
+                                    System.out.printf("%s%s%s%s%n",
+                                            "Room [" + r.getRoomNumber() + "]",
+                                            ", Beds: " + r.getNumberOfBeds(),
+                                            ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                            ", Cost Per Night: " + r.getPricePerNight());
+                                }
+                                break;
+                            case 5:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
                                 break;
                             default:
-                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
+                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-5");
                                 break;
                         }
                     } while (subMenu);
@@ -141,13 +183,13 @@ public class Main {
 
                         switch (subChoice) {
                             case 1:
-
+                                //check in customer
                                 break;
                             case 2:
-
+                                //check out customer
                                 break;
                             case 3:
-
+                                //change booking
                                 break;
                             case 4:
                                 //return to main menu
@@ -203,9 +245,10 @@ public class Main {
         System.out.println("|   Room options                  |");
         System.out.println("|                                 |");
         System.out.println("|  1.) Add room                   |");
-        System.out.println("|  2.) View all rooms             |");
-        System.out.println("|  3.) View available rooms       |");
-        System.out.println("|  4.) Return                     |");
+        System.out.println("|  2.) View Specific room         |");
+        System.out.println("|  3.) View all rooms             |");
+        System.out.println("|  4.) View available rooms       |");
+        System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
