@@ -1,5 +1,6 @@
 package stud.hkr;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -50,6 +51,7 @@ public class Main {
 
                                 logic.addCustomer(id, name, address, tele);
                                 break;
+
                             case 2:
                                 //view all customers
                                 ArrayList<Customer> customers = logic.getCustomers();
@@ -59,6 +61,7 @@ public class Main {
                                     System.out.println("Customer [" + (i + 1) + "]: " + customers.get(i).getName());
                                 }
                                 break;
+
                             case 3:
                                 //view specific customer
                                 System.out.print("Please enter the social security number of the customer: ");
@@ -76,11 +79,13 @@ public class Main {
                                     System.out.println("Customer could not be found!");
                                 }
                                 break;
+
                             case 4:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
                                 break;
+
                             default:
                                 System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                                 break;
@@ -116,6 +121,7 @@ public class Main {
                                 
                                 logic.addRoom(rn, nob, ppn, false, false);
                                 break;
+
                             case 2:
                                 //view requested room
                                 System.out.print("Please enter the room number: ");
@@ -135,6 +141,7 @@ public class Main {
                                     System.out.println("Room could not be found!");
                                 }
                                 break;
+
                             case 3:
                                 //view all rooms
                                 ArrayList<Room> rooms = logic.getRooms();
@@ -148,6 +155,7 @@ public class Main {
                                             ", Cost Per Night: " + r.getPricePerNight());
                                 }
                                 break;
+
                             case 4:
                                 //view all available rooms
                                 ArrayList<Room> aRooms = logic.getAvailableRooms();
@@ -161,11 +169,13 @@ public class Main {
                                             ", Cost Per Night: " + r.getPricePerNight());
                                 }
                                 break;
+
                             case 5:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
                                 break;
+
                             default:
                                 System.out.println("Invalid choice.\nPlease enter a valid choice between 1-5");
                                 break;
@@ -184,18 +194,41 @@ public class Main {
                         switch (subChoice) {
                             case 1:
                                 //check in customer
+                                boolean checking = true, processing = true;
+                                do {
+                                    if (processing) { //work in progress, doesn't work right now <-------------------------------------------------------------------
+                                        System.out.print("Please enter the customers social security number: ");
+                                        String ssn = input.nextLine();
+                                        //check to see if the ssn matches a customer in the system
+
+
+                                        //if customer exists then continue to next step
+                                        ArrayList<Room> rooms = new ArrayList<>();
+
+                                        //create a new booking for the customer
+                                        Booking b = new Booking(rooms, new Date(), new Date());
+
+                                        //complete the process
+                                        logic.checkInCustomer(ssn, b);
+                                        checking = false;
+                                    }
+                                } while (checking);
                                 break;
+
                             case 2:
                                 //check out customer
                                 break;
+
                             case 3:
                                 //change booking
                                 break;
+
                             case 4:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
                                 break;
+
                             default:
                                 System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                                 break;

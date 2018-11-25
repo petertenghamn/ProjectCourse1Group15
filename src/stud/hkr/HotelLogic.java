@@ -70,8 +70,6 @@ public class HotelLogic {
         }
 
         if (customer != null){
-            //this can result in 2 people having the same room booked (if not checked somewhere) <--------------------------------------------
-
             //attach booking to the user and check them in
             customer.checkIn(b);
 

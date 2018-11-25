@@ -11,7 +11,7 @@ public class Booking {
     private Date checkOutDate;
     private double totalPrice;
 
-    public Booking (ArrayList<Room> rooms, Date checkO, Date checkI) {
+    public Booking (ArrayList<Room> rooms, Date checkI, Date checkO) {
         roomList = rooms;
         checkInDate = checkI;
         checkOutDate = checkO;
