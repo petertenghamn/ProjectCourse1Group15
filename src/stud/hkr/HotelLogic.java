@@ -41,32 +41,63 @@ public class HotelLogic {
         //get list of Rooms not booked
         ArrayList<Room> output = new ArrayList<>();
         for (Room r : rooms){
-            if (r.getIsBooked()){
+            if (!r.isBooked()){
                 output.add(r);
             }
         }
         return output;
     }
 
-    public void addCustomer(Customer c){
+    public void addCustomer(String id, String n, String a, String tn){
         //add a customer to all current customers
+        Customer c = new Customer(id, n, a, tn);
         customers.add(c);
     }
 
-    public void addRoom(Room r){
+    public void addRoom(int rn, int nob, double ppn, boolean hb, boolean ib){
         //add a room to all current rooms
+        Room r = new Room(rn, nob, ppn, hb, ib);
         rooms.add(r);
     }
 
-    public void checkInCustomer(String ssn, int bookingnbr){
+    public boolean checkInCustomer(String ssn, Booking b){
         //check in a customer to an available room
-        //get person, from person get booking, from booking get rooms to change to being booked = true
+        Customer customer = null;
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                customer = c;
+            }
+        }
 
+        if (customer != null){
+            //attach booking to the user and check them in
+            customer.checkIn(b);
+
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public void checkOutCustomer(String ssn, int bookingnbr){
+    public boolean checkOutCustomer(String ssn, Booking b){
         //check out a customer out of a room currently used
+        Customer customer = null;
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                customer = c;
+            }
+        }
 
+        if (customer != null){
+            //remove booking from customer after checkout
+            customer.checkOut(b);
+
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void editBooking(String ssn, Booking booking){

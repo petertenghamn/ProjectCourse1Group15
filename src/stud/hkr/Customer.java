@@ -6,6 +6,7 @@ public class Customer {
     private String name;
     private String address;
     private String telephoneNumber;
+    private Booking booking;
 
     public Customer(String id, String n, String a, String tn) {
         ssn = id;
@@ -28,5 +29,19 @@ public class Customer {
 
     public String getTelephoneNumber() {
         return telephoneNumber;
+    }
+
+    public void checkIn(Booking b){
+        booking = b;
+        booking.checkInCustomer();
+    }
+
+    public void checkOut(Booking b){
+        booking = null;
+        b.checkOutCustomer();
+    }
+
+    public Booking getBooking() {
+        return booking;
     }
 }
