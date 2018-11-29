@@ -49,7 +49,10 @@ public class Main {
                                 System.out.print("Please enter the customers telephone number: ");
                                 String tele = input.nextLine();
 
-                                logic.addCustomer(id, name, address, tele);
+                                boolean exists = logic.addCustomer(id, name, address, tele);
+                                if (exists) {
+                                    System.out.println("Customer already exists!");
+                                }
                                 break;
 
                             case 2:
@@ -105,10 +108,6 @@ public class Main {
                         switch (subChoice) {
                             case 1:
                                 //add room
-                                System.out.print("Please enter the room number: "); //make this automatic so there are no duplicates
-                                int rn = input.nextInt();
-                                input.nextLine();
-
                                 System.out.print("Please enter the number of beds in the room: ");
                                 int nob = input.nextInt();
                                 input.nextLine();
@@ -119,7 +118,7 @@ public class Main {
 
                                 //ask if the room has a balcony or not (for now just no)
                                 
-                                logic.addRoom(rn, nob, ppn, false, false);
+                                logic.addRoom(nob, ppn, false, false);
                                 break;
 
                             case 2:
