@@ -117,9 +117,23 @@ public class Main {
                                 double ppn = input.nextDouble();
                                 input.nextLine();
 
-                                //ask if the room has a balcony or not (for now just no)
+                                //put in a loop to check if its answered correctly and take balcony input
+                                boolean asking = true, balcony = false;
+                                do {
+                                    System.out.print("Does the room have a balcony (y/n): ");
+                                    String answer = input.nextLine();
+
+                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")){
+                                        balcony = true;
+                                        asking = false;
+                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")){
+                                        asking = false;
+                                    } else {
+                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                    }
+                                } while (asking);
                                 
-                                logic.addRoom(rn, nob, ppn, false, false);
+                                logic.addRoom(rn, nob, ppn, balcony, false);
                                 break;
 
                             case 2:
