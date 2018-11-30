@@ -177,7 +177,21 @@ public class Main {
                                 double ppn = input.nextDouble();
                                 input.nextLine();
 
-                                //ask if the room has a balcony or not (for now just no)
+                                //put in a loop to check if its answered correctly and take balcony input
+                                boolean asking = true, balcony = false;
+                                do {
+                                    System.out.print("Does the room have a balcony (y/n): ");
+                                    String answer = input.nextLine();
+
+                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")){
+                                        balcony = true;
+                                        asking = false;
+                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")){
+                                        asking = false;
+                                    } else {
+                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                    }
+                                } while (asking);
                                 
                                 logic.addRoom(nob, ppn, false, false);
                                 break;
@@ -251,17 +265,17 @@ public class Main {
                         System.out.print("\nSelect Action: ");
                         subChoice = input.nextInt();
 
+                        boolean checking;
                         switch (subChoice) {
                             case 1:
                                 //check in customer
-                                boolean checking = true, processing = true;
+                                checking = true;
                                 do {
-                                    if (processing) { //work in progress, doesn't work right now <-------------------------------------------------------------------
-                                        System.out.print("Please enter the customers social security number: ");
-                                        String ssn = input.nextLine();
-                                        //check to see if the ssn matches a customer in the system
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
 
-
+                                    if (logic.getCustomer(ssn) != null) {
                                         //if customer exists then continue to next step
                                         ArrayList<Room> rooms = new ArrayList<>();
 
@@ -277,6 +291,20 @@ public class Main {
 
                             case 2:
                                 //check out customer
+                                checking = true;
+                                do {
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
+
+                                    if (logic.getCustomer(ssn) != null) {
+                                        Booking b = logic.getCustomer(ssn).getBooking();
+                                        logic.checkOutCustomer(ssn, b);
+                                        //complete the process
+                                        logic.checkInCustomer(ssn, b);
+                                        checking = false;
+                                    }
+                                } while (checking);
                                 break;
 
                             case 3:
