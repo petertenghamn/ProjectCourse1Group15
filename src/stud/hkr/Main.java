@@ -113,10 +113,12 @@ public class Main {
                                 //view all customers
                                 ArrayList<Customer> customers = logic.getCustomers();
 
-                                //print all customers names?
+                                //print all customers names and other info in a straight line
                                 for (int i = 0; i < customers.size(); i++){
-                                    System.out.println("Customer [" + (i + 1) + "]: " + customers.get(i).getName());
+                                    System.out.println("Customer ["  + customers.get(i).getName()  + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                 }
+
+
                                 break;
 
                             case 4:
@@ -246,7 +248,7 @@ public class Main {
                                                         System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
                                                     }
                                                 }
-                                                
+
                                                 // Deletes the Room before adding it again
                                                 logic.removeRoom(eRoom);
 
