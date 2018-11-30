@@ -92,6 +92,16 @@ public class HotelLogic {
         rooms.add(r);
     }
 
+    public void removeRoom(int roomNumber){
+        // Searches through the rooms array using the room number
+
+        for (int i = 0; i < rooms.size(); i++) {
+            if (roomNumber == rooms.get(i).getRoomNumber()){
+                rooms.remove(i);
+            }
+        }
+    }
+
     public boolean checkInCustomer(String ssn, Booking b) {
         //check in a customer to an available room
         Customer customer = null;
