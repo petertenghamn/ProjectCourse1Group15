@@ -205,17 +205,17 @@ public class Main {
                         System.out.print("\nSelect Action: ");
                         subChoice = input.nextInt();
 
+                        boolean checking;
                         switch (subChoice) {
                             case 1:
                                 //check in customer
-                                boolean checking = true, processing = true;
+                                checking = true;
                                 do {
-                                    if (processing) { //work in progress, doesn't work right now <-------------------------------------------------------------------
-                                        System.out.print("Please enter the customers social security number: ");
-                                        String ssn = input.nextLine();
-                                        //check to see if the ssn matches a customer in the system
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
 
-
+                                    if (logic.getCustomer(ssn) != null) {
                                         //if customer exists then continue to next step
                                         ArrayList<Room> rooms = new ArrayList<>();
 
@@ -231,6 +231,20 @@ public class Main {
 
                             case 2:
                                 //check out customer
+                                checking = true;
+                                do {
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
+
+                                    if (logic.getCustomer(ssn) != null) {
+                                        Booking b = logic.getCustomer(ssn).getBooking();
+                                        logic.checkOutCustomer(ssn, b);
+                                        //complete the process
+                                        logic.checkInCustomer(ssn, b);
+                                        checking = false;
+                                    }
+                                } while (checking);
                                 break;
 
                             case 3:
