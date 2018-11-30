@@ -11,10 +11,16 @@ public class Booking {
     private Date checkOutDate;
     private double totalPrice;
 
-    public Booking (ArrayList<Room> rooms, Date checkI, Date checkO) {
+    public Booking (int id, ArrayList<Room> rooms, Date checkI, Date checkO) {
+        bookingId = id;
+
         roomList = rooms;
         checkInDate = checkI;
         checkOutDate = checkO;
+
+        for (Room r : rooms){
+            totalPrice += r.getPricePerNight();
+        }
     }
 
     public int getBookingId() {
@@ -23,6 +29,10 @@ public class Booking {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+    public Date getCheckInDate() {
+        return checkInDate;
     }
 
     public void checkInCustomer(){
