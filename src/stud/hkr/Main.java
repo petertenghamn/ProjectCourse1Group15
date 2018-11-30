@@ -1,4 +1,5 @@
 package stud.hkr;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -356,7 +357,7 @@ public class Main {
                                         //creates booking if there are rooms to book, otherwise unnecessary
                                         if (rooms.size() > 0) {
                                             //create a new booking for the customer
-                                            Booking b = new Booking(rooms, new Date(), new Date());
+                                            Booking b = new Booking(1, rooms, new Date(), new Date());
 
                                             //complete the process
                                             logic.checkInCustomer(ssn, b);
@@ -385,6 +386,19 @@ public class Main {
 
                             case 3:
                                 //view booking
+                                System.out.print("Please enter the customer's social security number: ");
+                                String ssn = input.nextLine();
+
+                                Booking b = logic.ViewBooking(ssn);
+                                if (b != null){
+                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                    System.out.printf("%s%n%s%n%s%n",
+                                            "Booking number: [" + b.getBookingId() + "]",
+                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
+                                            "Booking price: [" + b.getTotalPrice() + "]");
+                                } else {
+                                    System.out.println("Customer does not have a booking!");
+                                }
                                 break;
 
                             case 4:

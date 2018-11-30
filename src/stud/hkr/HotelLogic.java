@@ -130,6 +130,17 @@ public class HotelLogic {
         }
     }
 
+    public Booking ViewBooking(String ssn){
+        Booking b = null;
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                b = c.getBooking();
+            }
+        }
+
+        return b; //can return null
+    }
+
     public void editBooking(String ssn, Booking booking) {
         //get persons info first to check booking and create a new one
         //over-write booking info
