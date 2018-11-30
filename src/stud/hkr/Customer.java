@@ -32,6 +32,7 @@ public class Customer {
     }
 
     public void checkIn(Booking b){
+        if (booking != null){ checkOut(booking); } // temporary fix so a person doesn't permanently lock a room as booked
         booking = b;
         booking.checkInCustomer();
     }

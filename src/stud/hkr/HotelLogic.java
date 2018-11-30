@@ -120,7 +120,7 @@ public class HotelLogic {
             }
         }
 
-        if (customer != null) {
+        if (customer != null && b != null) {
             //remove booking from customer after checkout
             customer.checkOut(b);
 
