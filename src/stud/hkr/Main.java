@@ -63,15 +63,7 @@ public class Main {
                                 Customer cE = logic.getCustomer(cEdit);
 
                                 if (cE != null){
-                                    System.out.println("___________________________________");
-                                    System.out.println("|                                 |");
-                                    System.out.println("|  Name: " + cE.getName());
-                                    System.out.println("|  Address: " + cE.getAddress());
-                                    System.out.println("|  Telephone: " + cE.getTelephoneNumber());
-                                    System.out.println("|                                 |");
-                                    System.out.println("|  1.) Edit Customer              |");
-                                    System.out.println("|  2.) Remove Customer            |");
-                                    System.out.println("-----------------------------------");
+                                    drawEditCustomerMenu(cE);
 
                                     int editSub = input.nextInt();
                                     int editSubMan = 0;
@@ -121,10 +113,12 @@ public class Main {
                                 //view all customers
                                 ArrayList<Customer> customers = logic.getCustomers();
 
-                                //print all customers names?
+                                //print all customers names and other info in a straight line
                                 for (int i = 0; i < customers.size(); i++){
-                                    System.out.println("Customer [" + (i + 1) + "]: " + customers.get(i).getName());
+                                    System.out.println("Customer ["  + customers.get(i).getName()  + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                 }
+
+
                                 break;
 
                             case 4:
@@ -196,8 +190,88 @@ public class Main {
                                 
                                 logic.addRoom(nob, ppn, balcony, false);
                                 break;
-
                             case 2:
+                                // Edit|Remove subMenu
+                                System.out.print("Enter the room number: ");
+                                int eRoom = input.nextInt();
+
+                                Room editRoom = logic.getRoom(eRoom);
+
+                                if (editRoom != null){
+                                    drawEditRoomMenu(editRoom);
+
+                                    int eChoice = input.nextInt();
+                                    int eRoomLoop = 0;
+
+                                    while (eRoomLoop == 0) { // Loop to make sure the program waits for a correct answer
+                                        switch (eChoice) {
+                                            case 1: // Edit the Room
+                                                eRoomLoop = 1;
+
+                                                System.out.print("Enter the new number of Beds:");
+                                                nob = input.nextInt();
+                                                System.out.print("Enter the new Price per Night: ");
+                                                ppn = input.nextInt();
+
+                                                input.nextLine(); // Is here to fix bug DO NOT REMOVE!
+
+                                                System.out.print("Does the room have a balcony (y/n): ");
+                                                String answerBalcony = input.nextLine();
+
+                                                boolean Ebalcony = false;
+                                                int eRoomAskingA = 0;
+
+                                                while (eRoomAskingA == 0) {
+                                                    if (answerBalcony.equalsIgnoreCase("y") || answerBalcony.equalsIgnoreCase("yes")) {
+                                                        Ebalcony = true;
+                                                        eRoomAskingA = 1;
+                                                    } else if (answerBalcony.equalsIgnoreCase("n") || answerBalcony.equalsIgnoreCase("no")) {
+                                                        eRoomAskingA = 1;
+                                                    } else {
+                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                    }
+                                                }
+
+                                                int eRoomAskingB = 0; // Sets the value back to 0 so that the booking question can be sent
+                                                System.out.print("Is the room Booked?");
+                                                String eBooked = input.nextLine();
+
+                                                boolean eRoomBook = false;
+
+                                                while (eRoomAskingB == 0) {
+                                                    if (eBooked.equalsIgnoreCase("y") || eBooked.equalsIgnoreCase("yes")) {
+                                                        eRoomBook = true;
+                                                        eRoomAskingB = 1;
+                                                    } else if (eBooked.equalsIgnoreCase("n") || eBooked.equalsIgnoreCase("no")) {
+                                                        eRoomAskingB = 1;
+                                                    } else {
+                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                    }
+                                                }
+
+                                                // Deletes the Room before adding it again
+                                                logic.removeRoom(eRoom);
+
+                                                logic.addRoom(nob, ppn, Ebalcony, eRoomBook);
+                                                break;
+                                            case 2: // Remove the Room
+                                                eRoomLoop = 1;
+                                                logic.removeRoom(eRoom);
+
+                                                System.out.println("Room has been REMOVED!");
+                                                System.out.println("Returning you to Manage Room Menu");
+                                                break;
+                                            default: // Mis input from the user
+                                                System.out.println("That wasn't a choice. Either press 1 to EDIT the Room or 2 to REMOVE the Room");
+                                        }
+                                    }
+                                }
+                                else{
+                                    System.out.println("That room doesn't exist!");
+                                    System.out.println("Returning you to Manage Room menu");
+                                }
+                                break;
+                            case 3:
                                 //view requested room
                                 System.out.print("Please enter the room number: ");
                                 int rNbr = input.nextInt();
@@ -217,7 +291,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 3:
+                            case 4:
                                 //view all rooms
                                 ArrayList<Room> rooms = logic.getRooms();
 
@@ -231,7 +305,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 4:
+                            case 5:
                                 //view all available rooms
                                 ArrayList<Room> aRooms = logic.getAvailableRooms();
 
@@ -245,7 +319,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 5:
+                            case 6:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
@@ -362,16 +436,42 @@ public class Main {
         System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
     }
+    // Sub Menu of Customer Menu
+    private void drawEditCustomerMenu(Customer cE){
+        System.out.println("___________________________________");
+        System.out.println("|                                 |");
+        System.out.println("|  Name: " + cE.getName());
+        System.out.println("|  Address: " + cE.getAddress());
+        System.out.println("|  Telephone: " + cE.getTelephoneNumber());
+        System.out.println("|                                 |");
+        System.out.println("|  1.) Edit Customer              |");
+        System.out.println("|  2.) Remove Customer            |");
+        System.out.println("-----------------------------------");
+    }
 
     private void drawRoomMenu(){
         System.out.println("___________________________________");
         System.out.println("|   Room options                  |");
         System.out.println("|                                 |");
         System.out.println("|  1.) Add room                   |");
-        System.out.println("|  2.) View Specific room         |");
-        System.out.println("|  3.) View all rooms             |");
-        System.out.println("|  4.) View available rooms       |");
-        System.out.println("|  5.) Return                     |");
+        System.out.println("|  2.) Edit / Remove Room         |");
+        System.out.println("|  3.) View Specific room         |");
+        System.out.println("|  4.) View all rooms             |");
+        System.out.println("|  5.) View available rooms       |");
+        System.out.println("|  6.) Return                     |");
+        System.out.println("-----------------------------------");
+    }
+    // Sub Menu of Room Menu
+    private void drawEditRoomMenu(Room eRoom){
+        System.out.println("___________________________________");
+        System.out.println("|                                 |");
+        System.out.println("|  Room Number: " + eRoom.getRoomNumber());
+        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds());
+        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony());
+        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight());  // No formatting on the double might need to change later
+        System.out.println("|                                 |");
+        System.out.println("|  1.) Edit Room                  |");
+        System.out.println("|  2.) Remove Room                |");
         System.out.println("-----------------------------------");
     }
 
