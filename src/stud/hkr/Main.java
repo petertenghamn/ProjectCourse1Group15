@@ -49,10 +49,74 @@ public class Main {
                                 System.out.print("Please enter the customers telephone number: ");
                                 String tele = input.nextLine();
 
-                                logic.addCustomer(id, name, address, tele);
+                                boolean exists = logic.addCustomer(id, name, address, tele);
+                                if (exists) {
+                                    System.out.println("Customer already exists!");
+                                }
                                 break;
 
                             case 2:
+                                System.out.print("Please enter the customers SSN number:");
+                                String cEdit = input.nextLine();
+
+                                Customer cE = logic.getCustomer(cEdit);
+
+                                if (cE != null){
+                                    System.out.println("___________________________________");
+                                    System.out.println("|                                 |");
+                                    System.out.println("|  Name: " + cE.getName());
+                                    System.out.println("|  Address: " + cE.getAddress());
+                                    System.out.println("|  Telephone: " + cE.getTelephoneNumber());
+                                    System.out.println("|                                 |");
+                                    System.out.println("|  1.) Edit Customer              |");
+                                    System.out.println("|  2.) Remove Customer            |");
+                                    System.out.println("-----------------------------------");
+
+                                    int editSub = input.nextInt();
+                                    int editSubMan = 0;
+
+                                    // This loop is so that if the user inputs something other than 1 or 2 they don't have to start all over
+                                    while (editSubMan == 0) {
+                                        switch (editSub) {
+                                            case 1: // This checks to see if the user wants to edit the customer
+                                                editSubMan = 1;
+
+                                                input.nextLine(); // Fixes a  bug DO NOT DELETE
+                                                // It currently runs through all the customers info change later into a submenu switch to change individual things
+                                                System.out.print("Enter the customers new SSN: ");
+                                                id = input.nextLine();
+                                                System.out.print("Enter the customers new name: ");
+                                                name = input.nextLine();
+                                                System.out.print("Enter the customers new address: ");
+                                                address = input.nextLine();
+                                                System.out.print("Please enter the customers new telephone number: ");
+                                                tele = input.nextLine();
+                                                System.out.println();
+
+                                                logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
+                                                logic.addCustomer(id, name, address, tele);
+
+                                                System.out.println("The Customer has been updated!");
+                                                System.out.println("Returning you to customer manage menu");
+
+                                                break;
+                                            case 2:
+                                                editSubMan =1;
+
+                                                logic.removeCustomer(cEdit);
+
+                                                System.out.println("Costumer has been deleted!");
+                                                System.out.println("Returning you to customer manage menu");
+                                        }
+                                    }
+                                }
+                                else {
+                                    System.out.println("Sorry that SSN is not registered to any customer");
+                                    System.out.println("Returning you to the customer manage menu");
+                                }
+                                break;
+
+                            case 3:
                                 //view all customers
                                 ArrayList<Customer> customers = logic.getCustomers();
 
@@ -62,7 +126,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 3:
+                            case 4:
                                 //view specific customer
                                 System.out.print("Please enter the social security number of the customer: ");
                                 String cSsn = input.nextLine();
@@ -80,7 +144,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 4:
+                            case 5:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
@@ -105,10 +169,6 @@ public class Main {
                         switch (subChoice) {
                             case 1:
                                 //add room
-                                System.out.print("Please enter the room number: "); //make this automatic so there are no duplicates
-                                int rn = input.nextInt();
-                                input.nextLine();
-
                                 System.out.print("Please enter the number of beds in the room: ");
                                 int nob = input.nextInt();
                                 input.nextLine();
@@ -117,9 +177,23 @@ public class Main {
                                 double ppn = input.nextDouble();
                                 input.nextLine();
 
-                                //ask if the room has a balcony or not (for now just no)
+                                //put in a loop to check if its answered correctly and take balcony input
+                                boolean asking = true, balcony = false;
+                                do {
+                                    System.out.print("Does the room have a balcony (y/n): ");
+                                    String answer = input.nextLine();
+
+                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")){
+                                        balcony = true;
+                                        asking = false;
+                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")){
+                                        asking = false;
+                                    } else {
+                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                    }
+                                } while (asking);
                                 
-                                logic.addRoom(rn, nob, ppn, false, false);
+                                logic.addRoom(nob, ppn, false, false);
                                 break;
 
                             case 2:
@@ -191,17 +265,17 @@ public class Main {
                         System.out.print("\nSelect Action: ");
                         subChoice = input.nextInt();
 
+                        boolean checking;
                         switch (subChoice) {
                             case 1:
                                 //check in customer
-                                boolean checking = true, processing = true;
+                                checking = true;
                                 do {
-                                    if (processing) { //work in progress, doesn't work right now <-------------------------------------------------------------------
-                                        System.out.print("Please enter the customers social security number: ");
-                                        String ssn = input.nextLine();
-                                        //check to see if the ssn matches a customer in the system
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
 
-
+                                    if (logic.getCustomer(ssn) != null) {
                                         //if customer exists then continue to next step
                                         ArrayList<Room> rooms = new ArrayList<>();
 
@@ -217,6 +291,20 @@ public class Main {
 
                             case 2:
                                 //check out customer
+                                checking = true;
+                                do {
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
+
+                                    if (logic.getCustomer(ssn) != null) {
+                                        Booking b = logic.getCustomer(ssn).getBooking();
+                                        logic.checkOutCustomer(ssn, b);
+                                        //complete the process
+                                        logic.checkInCustomer(ssn, b);
+                                        checking = false;
+                                    }
+                                } while (checking);
                                 break;
 
                             case 3:
@@ -267,9 +355,10 @@ public class Main {
         System.out.println("|   Customer options              |");
         System.out.println("|                                 |");
         System.out.println("|  1.) Add customer               |");
-        System.out.println("|  2.) View all customers         |");
-        System.out.println("|  3.) View specific customer     |");
-        System.out.println("|  4.) Return                     |");
+        System.out.println("|  2.) Edit / Remove customer     |");
+        System.out.println("|  3.) View all customers         |");
+        System.out.println("|  4.) View specific customer     |");
+        System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
