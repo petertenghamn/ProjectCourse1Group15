@@ -17,6 +17,16 @@ public class HotelLogic {
         return null;
     }
 
+    public void removeCustomer(String customerSSN){
+        // Searches through the array customers for the specific customer using the SSN
+
+            for (int i = 0; i < customers.size(); i++) {
+                if (customerSSN.equals(customers.get(i).getSsn())){
+                    customers.remove(i);
+                }
+            }
+    }
+
     public ArrayList<Customer> getCustomers(){
         //get list of all Customers
         return customers;
@@ -48,14 +58,35 @@ public class HotelLogic {
         return output;
     }
 
-    public void addCustomer(String id, String n, String a, String tn){
+    public boolean addCustomer(String id, String n, String a, String tn){
         //add a customer to all current customers
-        Customer c = new Customer(id, n, a, tn);
-        customers.add(c);
+        boolean exists = false;
+        for (int i = 0; i < customers.size(); i++)  {
+            if (customers.get(i).getSsn().equalsIgnoreCase(id))   {
+                exists=true;
+            }
+        }
+        if (!exists) {
+            Customer c = new Customer(id, n, a, tn);
+            customers.add(c);
+        }
+        return exists;
     }
 
-    public void addRoom(int rn, int nob, double ppn, boolean hb, boolean ib){
+    public void addRoom(int nob, double ppn, boolean hb, boolean ib){
         //add a room to all current rooms
+        int rn = 0;
+        boolean exists;
+        do {
+            rn++;
+            exists = false;
+            for (Room r : rooms)    {
+                if (r.getRoomNumber() == rn)   {
+                    exists = true;
+                }
+            }
+        } while (exists);
+
         Room r = new Room(rn, nob, ppn, hb, ib);
         rooms.add(r);
     }
