@@ -17,6 +17,16 @@ public class HotelLogic {
         return null;
     }
 
+    public void removeCustomer(String customerSSN){
+        // Searches through the array customers for the specific customer using the SSN
+
+            for (int i = 0; i < customers.size(); i++) {
+                if (customerSSN.equals(customers.get(i).getSsn())){
+                    customers.remove(i);
+                }
+            }
+    }
+
     public ArrayList<Customer> getCustomers(){
         //get list of all Customers
         return customers;
