@@ -56,6 +56,67 @@ public class Main {
                                 break;
 
                             case 2:
+                                System.out.print("Please enter the customers SSN number:");
+                                String cEdit = input.nextLine();
+
+                                Customer cE = logic.getCustomer(cEdit);
+
+                                if (cE != null){
+                                    System.out.println("___________________________________");
+                                    System.out.println("|                                 |");
+                                    System.out.println("|  Name: " + cE.getName());
+                                    System.out.println("|  Address: " + cE.getAddress());
+                                    System.out.println("|  Telephone: " + cE.getTelephoneNumber());
+                                    System.out.println("|                                 |");
+                                    System.out.println("|  1.) Edit Customer              |");
+                                    System.out.println("|  2.) Remove Customer            |");
+                                    System.out.println("-----------------------------------");
+
+                                    int editSub = input.nextInt();
+                                    int editSubMan = 0;
+
+                                    // This loop is so that if the user inputs something other than 1 or 2 they don't have to start all over
+                                    while (editSubMan == 0) {
+                                        switch (editSub) {
+                                            case 1: // This checks to see if the user wants to edit the customer
+                                                editSubMan = 1;
+
+                                                input.nextLine(); // Fixes a  bug DO NOT DELETE
+                                                // It currently runs through all the customers info change later into a submenu switch to change individual things
+                                                System.out.print("Enter the customers new SSN: ");
+                                                id = input.nextLine();
+                                                System.out.print("Enter the customers new name: ");
+                                                name = input.nextLine();
+                                                System.out.print("Enter the customers new address: ");
+                                                address = input.nextLine();
+                                                System.out.print("Please enter the customers new telephone number: ");
+                                                tele = input.nextLine();
+                                                System.out.println();
+
+                                                logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
+                                                logic.addCustomer(id, name, address, tele);
+
+                                                System.out.println("The Customer has been updated!");
+                                                System.out.println("Returning you to customer manage menu");
+
+                                                break;
+                                            case 2:
+                                                editSubMan =1;
+
+                                                logic.removeCustomer(cEdit);
+
+                                                System.out.println("Costumer has been deleted!");
+                                                System.out.println("Returning you to customer manage menu");
+                                        }
+                                    }
+                                }
+                                else {
+                                    System.out.println("Sorry that SSN is not registered to any customer");
+                                    System.out.println("Returning you to the customer manage menu");
+                                }
+                                break;
+
+                            case 3:
                                 //view all customers
                                 ArrayList<Customer> customers = logic.getCustomers();
 
@@ -65,7 +126,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 3:
+                            case 4:
                                 //view specific customer
                                 System.out.print("Please enter the social security number of the customer: ");
                                 String cSsn = input.nextLine();
@@ -83,7 +144,7 @@ public class Main {
                                 }
                                 break;
 
-                            case 4:
+                            case 5:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
@@ -266,9 +327,10 @@ public class Main {
         System.out.println("|   Customer options              |");
         System.out.println("|                                 |");
         System.out.println("|  1.) Add customer               |");
-        System.out.println("|  2.) View all customers         |");
-        System.out.println("|  3.) View specific customer     |");
-        System.out.println("|  4.) Return                     |");
+        System.out.println("|  2.) Edit / Remove customer     |");
+        System.out.println("|  3.) View all customers         |");
+        System.out.println("|  4.) View specific customer     |");
+        System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
