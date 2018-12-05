@@ -10,6 +10,7 @@ public class Booking {
     private Date checkInDate;
     private Date checkOutDate;
     private double totalPrice;
+    private boolean checkedOut;
 
     public Booking (int id, ArrayList<Room> rooms, Date checkI, Date checkO) {
         bookingId = id;
@@ -21,6 +22,8 @@ public class Booking {
         for (Room r : rooms){
             totalPrice += r.getPricePerNight();
         }
+
+        checkedOut = false;
     }
 
     public int getBookingId() {
@@ -50,5 +53,7 @@ public class Booking {
         for (Room r : roomList){
             r.setBooked(false);
         }
+
+        checkedOut = true;
     }
 }
