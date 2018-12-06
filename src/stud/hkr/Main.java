@@ -90,12 +90,17 @@ public class Main {
                         }
 
                     } while (correctEmployeePassword);
+                    break;
 
+                case 4:
+                    System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
+                    running = false;
                     break;
 
                 default:
-                    System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
-                    running = false;
+                    System.out.println("Invalid Choice!");
+                    System.out.println("Please Enter A Choice Between 1-5");
+                    break;
             }
 
             System.out.print("\nSelect Action: ");

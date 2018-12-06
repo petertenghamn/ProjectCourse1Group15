@@ -18,17 +18,17 @@ public class HotelLogic {
         return null;
     }
 
-    public void removeCustomer(String customerSSN){
+    public void removeCustomer(String customerSSN) {
         // Searches through the array customers for the specific customer using the SSN
 
-            for (int i = 0; i < customers.size(); i++) {
-                if (customerSSN.equals(customers.get(i).getSsn())){
-                    customers.remove(i);
-                }
+        for (int i = 0; i < customers.size(); i++) {
+            if (customerSSN.equals(customers.get(i).getSsn())) {
+                customers.remove(i);
             }
+        }
     }
 
-    public ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers() {
         //get list of all Customers
         return customers;
     }
@@ -59,12 +59,12 @@ public class HotelLogic {
         return output;
     }
 
-    public boolean addCustomer(String id, String n, String a, String tn){
+    public boolean addCustomer(String id, String n, String a, String tn) {
         //add a customer to all current customers
         boolean exists = false;
-        for (int i = 0; i < customers.size(); i++)  {
-            if (customers.get(i).getSsn().equalsIgnoreCase(id))   {
-                exists=true;
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getSsn().equalsIgnoreCase(id)) {
+                exists = true;
             }
         }
         if (!exists) {
@@ -74,15 +74,15 @@ public class HotelLogic {
         return exists;
     }
 
-    public void addRoom(int nob, double ppn, boolean hb, boolean ib){
+    public void addRoom(int nob, double ppn, boolean hb, boolean ib) {
         //add a room to all current rooms
         int rn = 0;
         boolean exists;
         do {
             rn++;
             exists = false;
-            for (Room r : rooms)    {
-                if (r.getRoomNumber() == rn)   {
+            for (Room r : rooms) {
+                if (r.getRoomNumber() == rn) {
                     exists = true;
                 }
             }
@@ -92,11 +92,11 @@ public class HotelLogic {
         rooms.add(r);
     }
 
-    public void removeRoom(int roomNumber){
+    public void removeRoom(int roomNumber) {
         // Searches through the rooms array using the room number
 
         for (int i = 0; i < rooms.size(); i++) {
-            if (roomNumber == rooms.get(i).getRoomNumber()){
+            if (roomNumber == rooms.get(i).getRoomNumber()) {
                 rooms.remove(i);
             }
         }
@@ -140,10 +140,10 @@ public class HotelLogic {
         }
     }
 
-    public Booking ViewBooking(String ssn){
+    public Booking ViewBooking(String ssn) {
         Booking b = null;
-        for (Customer c : customers){
-            if (c.getSsn().equals(ssn)){
+        for (Customer c : customers) {
+            if (c.getSsn().equals(ssn)) {
                 b = c.getBooking();
             }
         }
@@ -174,16 +174,16 @@ public class HotelLogic {
 
     public void generateCustomers() {
 
-        customers.add(new Customer ("0000000000", "Nicole", "Streetway 0", "0700000000"));
-        customers.add(new Customer ("1111111111", "Linus", "Streetway 1", "0700000001"));
-        customers.add(new Customer ("2222222222", "Stephen", "Streetway 2", "0700000002"));
-        customers.add(new Customer ("3333333332", "Peter", "Streetway 3", "0700000003"));
-        customers.add(new Customer ("4444444443", "Öjvind", "Streetway 4", "0700000004"));
-        customers.add(new Customer ("5555555555", "Alex", "Streetway 5", "0700000005"));
-        customers.add(new Customer ("6666666666", "Jonas", "Streetway 6", "0700000006"));
-        customers.add(new Customer ("7777777777", "Carl", "Streetway 7", "0700000007"));
-        customers.add(new Customer ("8888888888", "Tobjörn", "Streetway 8", "070000008"));
-        customers.add(new Customer ("9999999999", "India", "Streetway 9", "0700000009"));
+        customers.add(new Customer("0000000000", "Nicole", "Streetway 0", "0700000000"));
+        customers.add(new Customer("1111111111", "Linus", "Streetway 1", "0700000001"));
+        customers.add(new Customer("2222222222", "Stephen", "Streetway 2", "0700000002"));
+        customers.add(new Customer("3333333333", "Peter", "Streetway 3", "0700000003"));
+        customers.add(new Customer("4444444444", "Öjvind", "Streetway 4", "0700000004"));
+        customers.add(new Customer("5555555555", "Alex", "Streetway 5", "0700000005"));
+        customers.add(new Customer("6666666666", "Jonas", "Streetway 6", "0700000006"));
+        customers.add(new Customer("7777777777", "Carl", "Streetway 7", "0700000007"));
+        customers.add(new Customer("8888888888", "Tobjörn", "Streetway 8", "070000008"));
+        customers.add(new Customer("9999999999", "India", "Streetway 9", "0700000009"));
     }
 
 }
