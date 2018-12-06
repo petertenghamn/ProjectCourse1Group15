@@ -617,9 +617,9 @@ public class Main {
         System.out.println("|               Customer Options              |");
         System.out.println("|- - - - - - - - - - - - - - - - - - - - - - -|");
         System.out.println("|                                             |");
-        System.out.println("|  Name: " + cE.getName() +                  "|");
-        System.out.println("|  Address: " + cE.getAddress() +            "|");
-        System.out.println("|  Telephone: " + cE.getTelephoneNumber() +  "|");
+        System.out.println("|  Name: " + cE.getName() + "|");
+        System.out.println("|  Address: " + cE.getAddress() + "|");
+        System.out.println("|  Telephone: " + cE.getTelephoneNumber() + "|");
         System.out.println("|                                             |");
         System.out.println("|  1.) Edit Customer                          |");
         System.out.println("|  2.) Remove Customer                        |");
@@ -645,10 +645,10 @@ public class Main {
         System.out.println(" ___________________________________________________ ");
         System.out.println("|                    Room Options                   |");
         System.out.println("|- - - - - - - - - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|  Room Number: " + eRoom.getRoomNumber() +        "|");
-        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds() +   "|");
-        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony() +        "|");
-        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight() +  "|");  // No formatting on the double might need to change later
+        System.out.println("|  Room Number: " + eRoom.getRoomNumber() + "|");
+        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds() + "|");
+        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony() + "|");
+        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight() + "|");  // No formatting on the double might need to change later
         System.out.println("|                                                   |");
         System.out.println("|  1.) Edit Room                                    |");
         System.out.println("|  2.) Remove Room                                  |");
