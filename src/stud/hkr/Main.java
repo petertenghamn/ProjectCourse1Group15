@@ -21,7 +21,8 @@ public class Main {
             drawMenu();
             
             System.out.print("\nSelect Action: ");
-            int choice = input.nextInt();
+            try {
+                int choice = input.nextInt();
             input.nextLine();
 
             boolean subMenu = true;
@@ -33,23 +34,64 @@ public class Main {
                         drawCustomerMenu();
 
                         System.out.print("\nSelect Action: ");
-                        subChoice = input.nextInt();
+                        try     {
+                            subChoice = input.nextInt();
                         input.nextLine();
 
-                        switch (subChoice){
+                        switch (subChoice) {
                             case 1:
                                 //add a customer
-                                System.out.print("Please enter the customers social security number: ");
-                                String id = input.nextLine(); //this input needs to be checked to make sure its a unique key later
+                                boolean asking = true;
+                                String id;
+                                do {
+                                    System.out.print("Please enter the customers social security number: ");
+                                    id = input.nextLine();
+                                    if (id.equals("")) {
+                                        System.out.println("You must enter a social security number");
+                                    } else {
+                                        System.out.println("Saved"); //this input needs to be checked to make sure its a unique key later
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers name: ");
-                                String name = input.nextLine();
+                                asking = true;
+                                String name;
+                                do {
+                                    System.out.print("Please enter the customers name: ");
+                                    name = input.nextLine();
+                                    if (name.equals("")) {
+                                        System.out.println("You must enter a name");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers address: ");
-                                String address = input.nextLine();
+                                asking = true;
+                                String address;
+                                do {
+                                    System.out.print("Please enter the customers address: ");
+                                    address = input.nextLine();
+                                    if (address.equals("")) {
+                                        System.out.println("You must enter an address");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers telephone number: ");
-                                String tele = input.nextLine();
+                                asking = true;
+                                String tele;
+                                do {
+                                    System.out.print("Please enter the customers telephone number: ");
+                                    tele = input.nextLine();
+                                    if (tele.equals("")) {
+                                        System.out.println("You must enter a number");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
                                 boolean exists = logic.addCustomer(id, name, address, tele);
                                 if (exists) {
@@ -63,7 +105,7 @@ public class Main {
 
                                 Customer cE = logic.getCustomer(cEdit);
 
-                                if (cE != null){
+                                if (cE != null) {
                                     drawEditCustomerMenu(cE);
 
                                     int editSub = input.nextInt();
@@ -95,7 +137,7 @@ public class Main {
 
                                                 break;
                                             case 2:
-                                                editSubMan =1;
+                                                editSubMan = 1;
 
                                                 logic.removeCustomer(cEdit);
 
@@ -103,8 +145,7 @@ public class Main {
                                                 System.out.println("Returning you to customer manage menu");
                                         }
                                     }
-                                }
-                                else {
+                                } else {
                                     System.out.println("Sorry that SSN is not registered to any customer");
                                     System.out.println("Returning you to the customer manage menu");
                                 }
@@ -115,8 +156,8 @@ public class Main {
                                 ArrayList<Customer> customers = logic.getCustomers();
 
                                 //print all customers names and other info in a straight line
-                                for (int i = 0; i < customers.size(); i++){
-                                    System.out.println("Customer ["  + customers.get(i).getName()  + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
+                                for (int i = 0; i < customers.size(); i++) {
+                                    System.out.println("Customer [" + customers.get(i).getName() + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                 }
 
 
@@ -129,13 +170,12 @@ public class Main {
 
                                 Customer c = logic.getCustomer(cSsn);
 
-                                if (c != null){
+                                if (c != null) {
                                     System.out.println("---Customer information---");
                                     System.out.println("Name: " + c.getName());
                                     System.out.println("Address: " + c.getAddress());
                                     System.out.println("Telephone Number: " + c.getTelephoneNumber());
-                                }
-                                else {
+                                } else {
                                     System.out.println("Customer could not be found!");
                                 }
                                 break;
@@ -150,7 +190,11 @@ public class Main {
                                 System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                                 break;
                         }
-                    } while (subMenu);
+                    } catch (Exception ex) {
+                            System.out.println("Error!");
+                            input.nextLine();
+                        }
+                        } while (subMenu);
                     break;
 
                 case 2:
@@ -502,7 +546,12 @@ public class Main {
                     System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                     break;
             }
+        } catch (Exception ex){
+                System.out.println("Error!");
+            input.nextLine();
+            }
         } while (running);
+
     }
 
     private void drawMenu() {
