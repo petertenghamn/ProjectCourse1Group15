@@ -172,6 +172,20 @@ public class HotelLogic {
 
     }
 
+    public void generateCustomers() {
+
+        customers.add(new Customer ("0000000000", "Nicole", "Streetway 0", "0700000000"));
+        customers.add(new Customer ("1111111111", "Linus", "Streetway 1", "0700000001"));
+        customers.add(new Customer ("2222222222", "Stephen", "Streetway 2", "0700000002"));
+        customers.add(new Customer ("3333333332", "Peter", "Streetway 3", "0700000003"));
+        customers.add(new Customer ("4444444443", "Öjvind", "Streetway 4", "0700000004"));
+        customers.add(new Customer ("5555555555", "Alex", "Streetway 5", "0700000005"));
+        customers.add(new Customer ("6666666666", "Jonas", "Streetway 6", "0700000006"));
+        customers.add(new Customer ("7777777777", "Carl", "Streetway 7", "0700000007"));
+        customers.add(new Customer ("8888888888", "Tobjörn", "Streetway 8", "070000008"));
+        customers.add(new Customer ("9999999999", "India", "Streetway 9", "0700000009"));
+    }
+
 }
 
 //generate a basic list of rooms to use, a few of each type.

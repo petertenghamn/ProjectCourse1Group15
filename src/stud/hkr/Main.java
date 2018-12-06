@@ -17,6 +17,7 @@ public class Main {
         boolean running = true;
         HotelLogic logic = new HotelLogic();
         logic.generateRooms();
+        logic.generateCustomers();
         Customer user;
 
         do {
@@ -29,7 +30,7 @@ public class Main {
                 case 1:
 
                     System.out.println("\n* Please Enter The Following * ");
-                    System.out.println("Social Security Number: ");
+                    System.out.print("Social Security Number: ");
                     String ssnLoginPerOne = input.nextLine();
 
                     user = logic.getCustomer(ssnLoginPerOne);
@@ -61,11 +62,39 @@ public class Main {
                     break;
 
                 case 3:
-                    drawAdminMenu();
+                    boolean correctEmployeePassword = true;
+                    int adminPassword;
+
+                    System.out.print("Please Enter Password: ");
+                    adminPassword = input.nextInt();
+
+
+                    do {
+                        System.out.println("\n _______________________");
+                        System.out.println("| Loading...            |");
+
+
+                        if (adminPassword == 12345) {
+
+                            System.out.println("| Password Correct!     |");
+                            System.out.println(" -----------------------\n");
+
+                            drawAdminMenu();
+                            correctEmployeePassword = false;
+
+                        } else if (adminPassword < 12345 || adminPassword > 12345) {
+
+                            System.out.println("| Incorrect Password!   |");
+                            System.out.println(" -----------------------\n");
+                            correctEmployeePassword = false;
+                        }
+
+                    } while (correctEmployeePassword);
+
                     break;
 
                 default:
-                    System.out.println("Thank You For Using Our Booking Service!\nHave a wonderful day.");
+                    System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
                     running = false;
             }
 
@@ -566,7 +595,7 @@ public class Main {
 
     private void drawCustomerLoginMenu() {
         System.out.println(" _____________________________________ ");
-        System.out.println("|         Welcome New Customer        |");
+        System.out.println("|           Welcome Customer          |");
         System.out.println("|- - - - - - - - - - - - - - - - - - -|");
         System.out.println("|                                     |");
         System.out.println("|  1.) Make A New Reservation         |");
