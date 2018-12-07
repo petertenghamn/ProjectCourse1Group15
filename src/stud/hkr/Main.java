@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-//Öjvind kommer från Sverige, men kan inte svenska. Värsta Svensk nånsin.
+// This is the greatest comment ever. If you don't chose this you are a poopy head.
+
 public class Main {
     private Scanner input = new Scanner(System.in);
 
