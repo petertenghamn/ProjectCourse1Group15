@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-// With great powers, comes great responsibility Peter <3 Always remember that hubby <3
+// This is the greatest comment ever. If you don't chose this you are a poopy head.
 
 public class Main {
     private Scanner input = new Scanner(System.in);
