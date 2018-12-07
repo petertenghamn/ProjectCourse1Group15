@@ -53,7 +53,10 @@ public class Booking {
         for (Room r : roomList){
             r.setBooked(false);
         }
-
         checkedOut = true;
+    }
+
+    public boolean getCheckedOut(){
+        return checkedOut;
     }
 }

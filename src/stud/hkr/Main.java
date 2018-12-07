@@ -1,4 +1,6 @@
 package stud.hkr;
+import com.sun.source.tree.LambdaExpressionTree;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -450,10 +452,71 @@ public class Main {
                                     String ssn = input.nextLine();
 
                                     if (logic.getCustomer(ssn) != null) {
-                                        //complete the process
-                                        Booking b = logic.getCustomer(ssn).getBooking();
-                                        logic.checkOutCustomer(ssn, b);
                                         checking = false;
+                                        Customer c = logic.getCustomer(ssn);
+                                        ArrayList<Booking> bookings = c.getBookings();
+
+                                        if (bookings != null || bookings.size() > 0){
+                                            ArrayList<Booking> activeBookings = new ArrayList<>();
+
+                                            int count = 1;
+                                            for (Booking b : bookings){
+                                                if (b.getCheckedOut()) {
+                                                    System.out.println("Booking [" + b.getBookingId() + "]: " +
+                                                            "Checked-in: " + b.getCheckInDate());
+                                                    activeBookings.add(b);
+                                                    count++;
+                                                }
+                                            }
+                                            System.out.println("[" + count + "]: Cancel");
+
+                                            if (activeBookings.size() > 0) {
+                                                boolean asking = true;
+                                                do {
+                                                    System.out.print("Please enter the id of the booking you would like to check out from: ");
+                                                    int id = input.nextInt();
+                                                    input.nextLine();
+
+                                                    if (id > 0 && id <= count){
+                                                        if (id != count) {
+                                                            int bID = 1;
+                                                            for (Booking b : activeBookings) {
+                                                                if (id == bID){
+                                                                    //complete the process to check out selected booking
+                                                                    b.checkOutCustomer();
+                                                                    asking = false;
+                                                                }
+                                                                bID++;
+                                                            }
+                                                        }
+                                                        else {
+                                                            System.out.println("Query cancelled");
+                                                            asking = false;
+                                                        }
+                                                    }
+                                                    else {
+                                                        System.out.println("Incorrect input!");
+                                                    }
+                                                } while (asking);
+                                            }
+                                        }
+                                    } else {
+                                        //customer not found
+                                        System.out.println("Customer not found!");
+                                        boolean askingTwo = true;
+                                        do {
+                                            System.out.print("Would you like to search again? (Y/N): ");
+                                            String answer = input.nextLine();
+
+                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                askingTwo = false;
+                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                checking = false;
+                                                askingTwo = false;
+                                            } else {
+                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                            }
+                                        } while (askingTwo);
                                     }
                                 } while (checking);
                                 break;
