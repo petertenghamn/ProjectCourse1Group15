@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-// "With great powers, comes great responsibility <3
-
 public class Main {
     private Scanner input = new Scanner(System.in);
 
