@@ -130,7 +130,7 @@ public class HotelLogic {
             }
         }
 
-        if (customer != null) {
+        if (customer != null && b != null) {
             //remove booking from customer after checkout
             customer.checkOut(b);
 
@@ -138,6 +138,17 @@ public class HotelLogic {
         } else {
             return false;
         }
+    }
+
+    public Booking ViewBooking(String ssn){
+        Booking b = null;
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                b = c.getBooking();
+            }
+        }
+
+        return b; //can return null
     }
 
     public void editBooking(String ssn, Booking booking) {

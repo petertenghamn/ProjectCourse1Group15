@@ -1,7 +1,10 @@
 package stud.hkr;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
+// This is the greatest comment ever. If you don't chose this you are a poopy head.
 
 public class Main {
     private Scanner input = new Scanner(System.in);
@@ -20,7 +23,8 @@ public class Main {
             drawMenu();
             
             System.out.print("\nSelect Action: ");
-            int choice = input.nextInt();
+            try {
+                int choice = input.nextInt();
             input.nextLine();
 
             boolean subMenu = true;
@@ -32,23 +36,64 @@ public class Main {
                         drawCustomerMenu();
 
                         System.out.print("\nSelect Action: ");
-                        subChoice = input.nextInt();
+                        try     {
+                            subChoice = input.nextInt();
                         input.nextLine();
 
-                        switch (subChoice){
+                        switch (subChoice) {
                             case 1:
                                 //add a customer
-                                System.out.print("Please enter the customers social security number: ");
-                                String id = input.nextLine(); //this input needs to be checked to make sure its a unique key later
+                                boolean asking = true;
+                                String id;
+                                do {
+                                    System.out.print("Please enter the customers social security number: ");
+                                    id = input.nextLine();
+                                    if (id.equals("")) {
+                                        System.out.println("You must enter a social security number");
+                                    } else {
+                                        System.out.println("Saved"); //this input needs to be checked to make sure its a unique key later
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers name: ");
-                                String name = input.nextLine();
+                                asking = true;
+                                String name;
+                                do {
+                                    System.out.print("Please enter the customers name: ");
+                                    name = input.nextLine();
+                                    if (name.equals("")) {
+                                        System.out.println("You must enter a name");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers address: ");
-                                String address = input.nextLine();
+                                asking = true;
+                                String address;
+                                do {
+                                    System.out.print("Please enter the customers address: ");
+                                    address = input.nextLine();
+                                    if (address.equals("")) {
+                                        System.out.println("You must enter an address");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
-                                System.out.print("Please enter the customers telephone number: ");
-                                String tele = input.nextLine();
+                                asking = true;
+                                String tele;
+                                do {
+                                    System.out.print("Please enter the customers telephone number: ");
+                                    tele = input.nextLine();
+                                    if (tele.equals("")) {
+                                        System.out.println("You must enter a number");
+                                    } else {
+                                        System.out.println("Saved");
+                                        asking = false;
+                                    }
+                                } while (asking);
 
                                 boolean exists = logic.addCustomer(id, name, address, tele);
                                 if (exists) {
@@ -62,7 +107,7 @@ public class Main {
 
                                 Customer cE = logic.getCustomer(cEdit);
 
-                                if (cE != null){
+                                if (cE != null) {
                                     drawEditCustomerMenu(cE);
 
                                     int editSub = input.nextInt();
@@ -94,7 +139,7 @@ public class Main {
 
                                                 break;
                                             case 2:
-                                                editSubMan =1;
+                                                editSubMan = 1;
 
                                                 logic.removeCustomer(cEdit);
 
@@ -106,8 +151,7 @@ public class Main {
                                                 break;
                                         }
                                     }
-                                }
-                                else {
+                                } else {
                                     System.out.println("Sorry that SSN is not registered to any customer");
                                     System.out.println("Returning you to the customer manage menu");
                                 }
@@ -118,8 +162,8 @@ public class Main {
                                 ArrayList<Customer> customers = logic.getCustomers();
 
                                 //print all customers names and other info in a straight line
-                                for (int i = 0; i < customers.size(); i++){
-                                    System.out.println("Customer ["  + customers.get(i).getName()  + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
+                                for (int i = 0; i < customers.size(); i++) {
+                                    System.out.println("Customer [" + customers.get(i).getName() + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                 }
 
 
@@ -132,13 +176,12 @@ public class Main {
 
                                 Customer c = logic.getCustomer(cSsn);
 
-                                if (c != null){
+                                if (c != null) {
                                     System.out.println("---Customer information---");
                                     System.out.println("Name: " + c.getName());
                                     System.out.println("Address: " + c.getAddress());
                                     System.out.println("Telephone Number: " + c.getTelephoneNumber());
-                                }
-                                else {
+                                } else {
                                     System.out.println("Customer could not be found!");
                                 }
                                 break;
@@ -153,7 +196,11 @@ public class Main {
                                 System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                                 break;
                         }
-                    } while (subMenu);
+                    } catch (Exception ex) {
+                            System.out.println("Error!");
+                            input.nextLine();
+                        }
+                        } while (subMenu);
                     break;
 
                 case 2:
@@ -447,13 +494,94 @@ public class Main {
 
                                     if (logic.getCustomer(ssn) != null) {
                                         //if customer exists then continue to next step
-                                        ArrayList<Room> rooms = new ArrayList<>(); // <-------------- let the person pick rooms
+                                        ArrayList<Room> rooms = new ArrayList<>();
+                                        ArrayList<Room> availableRooms = logic.getAvailableRooms();
 
-                                        //create a new booking for the customer
-                                        Booking b = new Booking(rooms, new Date(), new Date()); // <--------- set the date to todays date
+                                        //prints all available rooms that have not already been chosen
+                                        boolean picking = true;
+                                        do {
+                                            for (Room r : availableRooms) {
+                                                boolean inBooking = false;
+                                                for (Room r2 : rooms){
+                                                    if (r.getRoomNumber() == r2.getRoomNumber()){
+                                                        inBooking = true;
+                                                    }
+                                                }
+                                                if (!inBooking){
+                                                    System.out.printf("%s%s%s%s%n",
+                                                            "Room [" + r.getRoomNumber() + "]",
+                                                            ", Beds: " + r.getNumberOfBeds(),
+                                                            ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                                            ", Cost Per Night: " + r.getPricePerNight());
+                                                }
+                                            }
+                                            System.out.printf("%n%s", "Please enter the room number you would like to book: ");
+                                            int rn = input.nextInt();
+                                            input.nextLine();
 
-                                        //complete the process
-                                        logic.checkInCustomer(ssn, b);
+                                            //checks that the rn doesnt belong to a room already selected or that doesnt exist
+                                            boolean roomAdded = false;
+                                            for (Room r : availableRooms) {
+                                                if (r.getRoomNumber() == rn) {
+                                                    boolean inBooking = false;
+                                                    for (Room r2 : rooms) {
+                                                        if (r2.getRoomNumber() == rn) {
+                                                            inBooking = true;
+                                                        }
+                                                    }
+                                                    if (!inBooking) {
+                                                        rooms.add(logic.getRoom(rn));
+                                                        roomAdded = true;
+                                                    }
+                                                }
+                                            }
+                                            if (!roomAdded){
+                                                System.out.println("Could not find room you selected!");
+                                            }
+
+                                            boolean asking = true;
+                                            //two choices depending on if the room list is greater then 0
+                                            if (rooms.size() > 0) {
+                                                do {
+                                                    System.out.print("Do you want to book another room? (y/n): ");
+                                                    String answer = input.nextLine();
+
+                                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                        asking = false;
+                                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                        picking = false;
+                                                        asking = false;
+                                                    } else {
+                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                    }
+                                                } while (asking);
+                                            }
+                                            //if there are no rooms booked ask if they wish to cancel
+                                            else {
+                                                do {
+                                                    System.out.print("Do you want to cancel your booking? (y/n): ");
+                                                    String answer = input.nextLine();
+
+                                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                        picking = false;
+                                                        asking = false;
+                                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                        asking = false;
+                                                    } else {
+                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                    }
+                                                } while (asking);
+                                            }
+                                        } while (picking);
+
+                                        //creates booking if there are rooms to book, otherwise unnecessary
+                                        if (rooms.size() > 0) {
+                                            //create a new booking for the customer
+                                            Booking b = new Booking(1, rooms, new Date(), new Date());
+
+                                            //complete the process
+                                            logic.checkInCustomer(ssn, b);
+                                        }
                                         checking = false;
                                     }
                                 } while (checking);
@@ -477,17 +605,34 @@ public class Main {
                                 break;
 
                             case 3:
-                                //change booking
+                                //view booking
+                                System.out.print("Please enter the customer's social security number: ");
+                                String ssn = input.nextLine();
+
+                                Booking b = logic.ViewBooking(ssn);
+                                if (b != null){
+                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                    System.out.printf("%s%n%s%n%s%n",
+                                            "Booking number: [" + b.getBookingId() + "]",
+                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
+                                            "Booking price: [" + b.getTotalPrice() + "]");
+                                } else {
+                                    System.out.println("Customer does not have a booking!");
+                                }
                                 break;
 
                             case 4:
+                                //change booking
+                                break;
+
+                            case 5:
                                 //return to main menu
                                 System.out.println("Returning you to main menu");
                                 subMenu = false;
                                 break;
 
                             default:
-                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
+                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-5");
                                 break;
                         }
                     } while (subMenu);
@@ -503,7 +648,12 @@ public class Main {
                     System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                     break;
             }
+        } catch (Exception ex){
+                System.out.println("Error!");
+            input.nextLine();
+            }
         } while (running);
+
     }
 
     private void drawMenu() {
@@ -571,12 +721,13 @@ public class Main {
 
     private void drawCheckInOutMenu(){
         System.out.println("___________________________________");
-        System.out.println("|   Room options                  |");
+        System.out.println("|   Booking options               |");
         System.out.println("|                                 |");
         System.out.println("|  1.) Check In customer          |");
         System.out.println("|  2.) Check Out customer         |");
-        System.out.println("|  3.) Change booking             |");
-        System.out.println("|  4.) Return                     |");
+        System.out.println("|  3.) View booking               |");
+        System.out.println("|  4.) Change booking             |");
+        System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
     }
 }
