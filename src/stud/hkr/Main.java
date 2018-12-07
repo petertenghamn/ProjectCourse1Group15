@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+//Öjvind kommer från Sverige, men kan inte svenska. Värsta Svensk nånsin.
 public class Main {
     private Scanner input = new Scanner(System.in);
 
