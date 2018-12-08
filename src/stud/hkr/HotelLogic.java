@@ -143,7 +143,7 @@ public class HotelLogic {
         ArrayList<Booking> b = new ArrayList<>();
         for (Customer c : customers){
             if (c.getSsn().equals(ssn)){
-                b = c.getBookings();
+                b.addAll(c.getBookings());
             }
         }
 

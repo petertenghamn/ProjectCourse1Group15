@@ -462,8 +462,9 @@ public class Main {
                                             int count = 1;
                                             for (Booking b : bookings){
                                                 if (b.getCheckedOut()) {
+                                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
                                                     System.out.println("Booking [" + b.getBookingId() + "]: " +
-                                                            "Checked-in: " + b.getCheckInDate());
+                                                            "Checked-in: " + strDateFormat.format(b.getCheckInDate()));
                                                     activeBookings.add(b);
                                                     count++;
                                                 }
@@ -501,8 +502,9 @@ public class Main {
                                             }
                                         }
                                     } else {
-                                        //customer not found
                                         System.out.println("Customer not found!");
+
+                                        //ask if they wish to cancel search
                                         boolean askingTwo = true;
                                         do {
                                             System.out.print("Would you like to search again? (Y/N): ");
@@ -523,19 +525,49 @@ public class Main {
 
                             case 3:
                                 //view booking
-                                System.out.print("Please enter the customer's social security number: ");
-                                String ssn = input.nextLine();
+                                checking = true;
+                                do {
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
 
-                                Booking b = logic.ViewBooking(ssn);
-                                if (b != null){
-                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
-                                    System.out.printf("%s%n%s%n%s%n",
-                                            "Booking number: [" + b.getBookingId() + "]",
-                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
-                                            "Booking price: [" + b.getTotalPrice() + "]");
-                                } else {
-                                    System.out.println("Customer does not have a booking!");
-                                }
+                                    if (logic.getCustomer(ssn) != null) {
+                                        checking = false;
+                                        Customer c = logic.getCustomer(ssn);
+                                        ArrayList<Booking> bookings = c.getBookings();
+
+                                        if (bookings != null || bookings.size() > 0) {
+                                            for (Booking b : bookings) {
+                                                SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                                System.out.printf("%s%n%s%n%s%n",
+                                                        "Booking number: [" + b.getBookingId() + "]",
+                                                        "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
+                                                        "Booking price: [" + b.getTotalPrice() + "]");
+                                            }
+                                        }
+                                        else {
+                                            System.out.println("Customer does not currently have any bookings");
+                                        }
+                                    }
+                                    else {
+                                        System.out.println("Customer not found!");
+
+                                        //ask if they wish to cancel search
+                                        boolean askingTwo = true;
+                                        do {
+                                            System.out.print("Would you like to search again? (Y/N): ");
+                                            String answer = input.nextLine();
+
+                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                askingTwo = false;
+                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                checking = false;
+                                                askingTwo = false;
+                                            } else {
+                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                            }
+                                        } while (askingTwo);
+                                    }
+                                } while (checking);
                                 break;
 
                             case 4:
@@ -637,7 +669,7 @@ public class Main {
         System.out.println("|                                 |");
         System.out.println("|  1.) Check In customer          |");
         System.out.println("|  2.) Check Out customer         |");
-        System.out.println("|  3.) View booking               |");
+        System.out.println("|  3.) View your bookings         |");
         System.out.println("|  4.) Change booking             |");
         System.out.println("|  5.) Return                     |");
         System.out.println("-----------------------------------");
