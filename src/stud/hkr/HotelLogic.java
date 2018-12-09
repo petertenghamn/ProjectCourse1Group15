@@ -175,7 +175,6 @@ public class HotelLogic {
     public void generateCustomers() {
 
         customers.add(new Customer("0000000000", "Nicole", "Streetway 0", "0700000000"));
-        customers.add(new Customer("2222222222", "Stephen", "Streetway 2", "0700000002"));
         customers.add(new Customer("0000000001", "Linus", "Streetway 1", "0700000001"));
         customers.add(new Customer("0000000002", "Stephen", "Streetway 2", "0700000002"));
         customers.add(new Customer("0000000003", "Peter", "Streetway 3", "0700000003"));

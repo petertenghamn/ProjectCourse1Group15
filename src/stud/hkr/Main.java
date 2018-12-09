@@ -1,4 +1,5 @@
 package stud.hkr;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,84 +35,88 @@ public class Main {
 
                     user = logic.getCustomer(ssnLoginPerOne);
 
-                        if (user != null) {
+                    if (user != null) {
 
-                            drawCustomerLoginMenu();
+                        drawCustomerLoginMenu();
 
-                            System.out.print("\nSelect Action: ");
-                            int choiceCustomerLogIn = input.nextInt();
-                            input.nextLine();
+                        System.out.print("\nSelect Action: ");
+                        int choiceCustomerLogIn = input.nextInt();
+                        input.nextLine();
 
-                            switch (choiceCustomerLogIn) {
-                                case 1:
-                                    drawCustomerReservationMenu();
-                                    break;
+                        switch (choiceCustomerLogIn) {
+                            case 1:
+                                drawCustomerReservationMenu();
+                                break;
 
-                                case 2:
-                                    drawCustomerLoginMenu();
+                            case 2:
+                                drawCustomerLoginMenu();
 
-                                    System.out.print("\nSelect Action: ");
-                                    int choice = input.nextInt();
-                                    input.nextLine();
+                                System.out.print("\nSelect Action: ");
+                                int choice = input.nextInt();
+                                input.nextLine();
 
 
-                                    break;
-                                default:
-                                    System.out.println("\nInvalid choice!\nPlease Enter A Valid Choice From The Options Above!\n");
+                                break;
+                            default:
+                                System.out.println("\nInvalid choice!\nPlease Enter A Valid Choice From The Options Above!\n");
 
-                            }
                         }
-                        break;
+                    }
+                    break;
 
                 case 2:
 
-                        System.out.println("\n* Please Enter The Following * ");
-                        System.out.println("Social Security Number: ");
-                        String newSsnPerOne = input.nextLine();
+                    System.out.println("\n* Please Enter The Following * ");
+                    System.out.println("Social Security Number: ");
+                    String newSsnPerOne = input.nextLine();
 
-                        System.out.println("Name: ");
-                        String newNamePerOne = input.nextLine();
+                    System.out.println("Name: ");
+                    String newNamePerOne = input.nextLine();
 
-                        System.out.println("Address: ");
-                        String newAddressPerOne = input.nextLine();
+                    System.out.println("Address: ");
+                    String newAddressPerOne = input.nextLine();
 
-                        System.out.println("Phone Number: ");
-                        String newPhoneNumberPerOne = input.nextLine();
+                    System.out.println("Phone Number: ");
+                    String newPhoneNumberPerOne = input.nextLine();
 
-                        drawNewCustomerMenu();
+                    drawNewCustomerMenu();
 
-                        break;
+                    break;
 
                 case 3:
-                    boolean correctEmployeePassword = true;
-                    int adminPassword;
 
-                    System.out.print("Please Enter Password: ");
-                    adminPassword = input.nextInt();
+                    String Username;
+                    String Password;
 
-
-                    do {
-                        System.out.println("\n _______________________");
-                        System.out.println("| Loading...            |");
+                    Password = "admin";
+                    Username = "admin";
 
 
-                        if (adminPassword == 12345) {
+                    drawAdminLogin();
+                    Scanner inputAdminUser = new Scanner(System.in);
+                    System.out.print("| Enter Username : ");
+                    String username = inputAdminUser.next();
 
-                            System.out.println("| Password Correct!     |");
-                            System.out.println(" -----------------------\n");
+                    Scanner inputAdminPassword = new Scanner(System.in);
+                    System.out.print("| Enter Password : ");
+                    String password = inputAdminPassword.next();
 
-                            drawAdminMenu();
-                            correctEmployeePassword = false;
+                    if (username.equals(Username) && password.equals(Password)) {
 
-                        } else if (adminPassword < 12345 || adminPassword > 12345) {
+                        System.out.println(" ------------------------------------- ");
+                        System.out.println("\nAccess Granted! Welcome!");
+                        drawAdminMenu();
+                    }
 
-                            System.out.println("| Incorrect Password!   |");
-                            System.out.println(" -----------------------\n");
-                            correctEmployeePassword = false;
-                        }
+                    else if (username.equals(Username)) {
+                        System.out.println("Icorrect Password!");
 
-                    } while (correctEmployeePassword);
-                    break;
+                    } else if (password.equals(Password)) {
+                        System.out.println("Incorrect Username!");
+
+                    } else {
+                        System.out.println("Incorrect Username & Password!");
+                    } break;
 
                 case 4:
                     System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
@@ -647,6 +652,14 @@ public class Main {
         System.out.println("|  1.) Make A Reservation             |");
         System.out.println("|  2.) View A List Of Available Rooms |");
         System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawAdminLogin() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|        Welcome Dear Employee        |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
     }
 
     private void drawAdminMenu() {
