@@ -1,4 +1,5 @@
 package stud.hkr;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -577,7 +578,8 @@ public class Main {
                                         //creates booking if there are rooms to book, otherwise unnecessary
                                         if (rooms.size() > 0) {
                                             //create a new booking for the customer
-                                            Booking b = new Booking(1, rooms, new Date(), new Date());
+                                            int newBookingID = logic.getCustomer(ssn).getBookings().size() + 1;
+                                            Booking b = new Booking(newBookingID, rooms, new Date(), new Date());
 
                                             //complete the process
                                             logic.checkInCustomer(ssn, b);
@@ -596,33 +598,393 @@ public class Main {
                                     String ssn = input.nextLine();
 
                                     if (logic.getCustomer(ssn) != null) {
-                                        //complete the process
-                                        Booking b = logic.getCustomer(ssn).getBooking();
-                                        logic.checkOutCustomer(ssn, b);
                                         checking = false;
+                                        Customer c = logic.getCustomer(ssn);
+                                        ArrayList<Booking> bookings = c.getBookings();
+
+                                        if (bookings.size() > 0){
+                                            ArrayList<Booking> activeBookings = new ArrayList<>();
+
+                                            int count = 1;
+                                            for (Booking b : bookings){
+                                                if (!b.getCheckedOut()) {
+                                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                                    System.out.println("[" + count + "] Booking: " +
+                                                            "Checked-in: " + strDateFormat.format(b.getCheckInDate()));
+                                                    activeBookings.add(b);
+                                                    count++;
+                                                }
+                                            }
+                                            System.out.println("[" + count + "]: Cancel");
+
+                                            if (activeBookings.size() > 0) {
+                                                boolean asking = true;
+                                                do {
+                                                    System.out.print("Please enter the choice of the booking you would like to check out from: ");
+                                                    int id = input.nextInt();
+                                                    input.nextLine();
+
+                                                    if (id > 0 && id <= count){
+                                                        if (id != count) {
+                                                            int bID = 1;
+                                                            for (Booking b : activeBookings) {
+                                                                if (id == bID){
+                                                                    //complete the process to check out selected booking
+                                                                    b.checkOutCustomer();
+                                                                    asking = false;
+                                                                }
+                                                                bID++;
+                                                            }
+                                                        }
+                                                        else {
+                                                            System.out.println("Query cancelled");
+                                                            asking = false;
+                                                        }
+                                                    }
+                                                    else {
+                                                        System.out.println("Incorrect input!");
+                                                    }
+                                                } while (asking);
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("Customer not found!");
+
+                                        //ask if they wish to cancel search
+                                        boolean askingTwo = true;
+                                        do {
+                                            System.out.print("Would you like to search again? (Y/N): ");
+                                            String answer = input.nextLine();
+
+                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                askingTwo = false;
+                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                checking = false;
+                                                askingTwo = false;
+                                            } else {
+                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                            }
+                                        } while (askingTwo);
                                     }
                                 } while (checking);
                                 break;
 
                             case 3:
                                 //view booking
-                                System.out.print("Please enter the customer's social security number: ");
-                                String ssn = input.nextLine();
+                                checking = true;
+                                do {
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
 
-                                Booking b = logic.ViewBooking(ssn);
-                                if (b != null){
-                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
-                                    System.out.printf("%s%n%s%n%s%n",
-                                            "Booking number: [" + b.getBookingId() + "]",
-                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
-                                            "Booking price: [" + b.getTotalPrice() + "]");
-                                } else {
-                                    System.out.println("Customer does not have a booking!");
-                                }
+                                    if (logic.getCustomer(ssn) != null) {
+                                        checking = false;
+                                        Customer c = logic.getCustomer(ssn);
+                                        ArrayList<Booking> bookings = c.getBookings();
+
+                                        if (bookings != null || bookings.size() > 0) {
+                                            for (Booking b : bookings) {
+                                                SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                                if (b.getCheckedOut()) {
+                                                    System.out.printf("%s%n%s%n%s%n%s%n",
+                                                            "Booking number: [" + b.getBookingId() + "]",
+                                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
+                                                            "Check-out date: [" + strDateFormat.format(b.getCheckOutDate()) + "]",
+                                                            "Booking price: [" + b.getTotalPrice() + "]");
+                                                }
+                                                else {
+                                                    System.out.printf("%s%n%s%n%s%n",
+                                                            "Booking number: [" + b.getBookingId() + "]",
+                                                            "Check-in date: [" + strDateFormat.format(b.getCheckInDate()) + "]",
+                                                            "Booking price: [" + b.getTotalPrice() + "]");
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            System.out.println("Customer does not currently have any bookings");
+                                        }
+                                    }
+                                    else {
+                                        System.out.println("Customer not found!");
+
+                                        //ask if they wish to cancel search
+                                        boolean askingTwo = true;
+                                        do {
+                                            System.out.print("Would you like to search again? (Y/N): ");
+                                            String answer = input.nextLine();
+
+                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                askingTwo = false;
+                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                checking = false;
+                                                askingTwo = false;
+                                            } else {
+                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                            }
+                                        } while (askingTwo);
+                                    }
+                                } while (checking);
                                 break;
 
                             case 4:
-                                //change booking
+                                //change active booking
+                                checking = true;
+                                do {
+                                    //check if customer exists
+                                    System.out.print("Please enter the customer's social security number: ");
+                                    String ssn = input.nextLine();
+
+                                    if (logic.getCustomer(ssn) != null) {
+                                        checking = false;
+                                        Customer c = logic.getCustomer(ssn);
+                                        ArrayList<Booking> bookings = c.getBookings();
+
+                                        if (bookings != null || bookings.size() > 0){
+                                            ArrayList<Booking> activeBookings = new ArrayList<>();
+
+                                            int count = 1;
+                                            for (Booking b : bookings){
+                                                if (!b.getCheckedOut()) {
+                                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                                    System.out.println("[" + count + "] Booking: " +
+                                                            "Checked-in: " + strDateFormat.format(b.getCheckInDate()));
+                                                    activeBookings.add(b);
+                                                    count++;
+                                                }
+                                            }
+                                            System.out.println("[" + count + "]: Cancel");
+
+                                            if (activeBookings.size() > 0) {
+                                                boolean asking = true;
+                                                do {
+                                                    System.out.print("Please enter the id of the booking you would like to edit: ");
+                                                    int id = input.nextInt();
+                                                    input.nextLine();
+
+                                                    if (id > 0 && id <= count){
+                                                        if (id != count) {
+                                                            int bID = 1;
+                                                            for (Booking b : activeBookings) {
+                                                                if (id == bID){
+                                                                    boolean editing = true;
+                                                                    int subChoiceEdit;
+                                                                    do {
+                                                                        drawEditBookingMenu();
+
+                                                                        System.out.print("\nSelect Action: ");
+                                                                        subChoiceEdit = input.nextInt();
+                                                                        input.nextLine();
+
+                                                                        //edit the booking selected by the customer
+                                                                        switch (subChoiceEdit) {
+                                                                            case 1:
+                                                                                if (b.getRoomList().size() > 0) {
+                                                                                    //remove room
+                                                                                    ArrayList<Room> rooms = b.getRoomList();
+                                                                                    ArrayList<Room> removedRooms = new ArrayList<>();
+                                                                                    boolean removing = true;
+                                                                                    do {
+                                                                                        //print all rooms
+                                                                                        int rCount = 1;
+                                                                                        for (Room r : rooms) {
+                                                                                            if (!removedRooms.contains(r)) {
+                                                                                                System.out.println("[" + rCount + "] Room: " +
+                                                                                                        "number of beds: " + r.getNumberOfBeds() +
+                                                                                                        "price per night: " + r.getPricePerNight());
+                                                                                                activeBookings.add(b);
+                                                                                                rCount++;
+                                                                                            }
+                                                                                        }
+                                                                                        System.out.println("[" + rCount + "]: Cancel");
+
+                                                                                        //take in users choice
+                                                                                        System.out.println(" ");
+                                                                                        boolean remAsking = true;
+                                                                                        do {
+                                                                                            System.out.print("Which room would you like to remove?: ");
+                                                                                            int removeC = input.nextInt();
+                                                                                            input.nextLine();
+
+                                                                                            if (removeC == rCount){
+                                                                                                remAsking = false;
+                                                                                            } else {
+                                                                                                boolean found = false;
+                                                                                                int fCount = 1;
+                                                                                                for (Room r : rooms) {
+                                                                                                    if (!removedRooms.contains(r) && fCount == removeC) {
+                                                                                                        found = true;
+                                                                                                        removedRooms.add(r);
+                                                                                                    }
+                                                                                                }
+                                                                                                if (!found) {
+                                                                                                    System.out.println("Incorrect input! (1-" + rCount + ")");
+                                                                                                }
+
+                                                                                                System.out.print("Are you finished removing rooms from your booking? (y/n): ");
+                                                                                                String answer = input.nextLine();
+
+                                                                                                boolean asking5 = true;
+                                                                                                do {
+                                                                                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                                                                        remAsking = false;
+                                                                                                        asking5 = false;
+                                                                                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                                                                        asking5 = false;
+                                                                                                    } else {
+                                                                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                                    }
+                                                                                                } while (asking5);
+                                                                                            }
+                                                                                        } while (remAsking);
+                                                                                    } while (removing || rooms.size() > 0);
+                                                                                    //give message if all rooms removed
+                                                                                    if (rooms.size() < 1) {
+                                                                                        System.out.println("All rooms removed!");
+                                                                                    }
+                                                                                    b.removeRooms(removedRooms);
+                                                                                }
+                                                                                else {
+                                                                                    System.out.println("No rooms to remove!");
+                                                                                }
+
+                                                                                break;
+
+                                                                            case 2:
+                                                                                //add room
+                                                                                //prints all available rooms that have not already been chosen
+                                                                                boolean picking = true;
+                                                                                ArrayList<Room> rooms = b.getRoomList();
+                                                                                do {
+                                                                                    for (Room r : logic.getAvailableRooms()) {
+                                                                                        boolean inBooking = false;
+                                                                                        for (Room r2 : rooms){
+                                                                                            if (r.getRoomNumber() == r2.getRoomNumber()){
+                                                                                                inBooking = true;
+                                                                                            }
+                                                                                        }
+                                                                                        if (!inBooking){
+                                                                                            System.out.printf("%s%s%s%s%n",
+                                                                                                    "Room [" + r.getRoomNumber() + "]",
+                                                                                                    ", Beds: " + r.getNumberOfBeds(),
+                                                                                                    ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                                                                                    ", Cost Per Night: " + r.getPricePerNight());
+                                                                                        }
+                                                                                    }
+                                                                                    System.out.printf("%n%s", "Please enter the room number you would like to book: ");
+                                                                                    int rn = input.nextInt();
+                                                                                    input.nextLine();
+
+                                                                                    //checks that the rn doesnt belong to a room already selected or that doesnt exist
+                                                                                    boolean roomAdded = false;
+                                                                                    for (Room r : logic.getAvailableRooms()) {
+                                                                                        if (r.getRoomNumber() == rn) {
+                                                                                            boolean inBooking = false;
+                                                                                            for (Room r2 : rooms) {
+                                                                                                if (r2.getRoomNumber() == rn) {
+                                                                                                    inBooking = true;
+                                                                                                }
+                                                                                            }
+                                                                                            if (!inBooking) {
+                                                                                                rooms.add(logic.getRoom(rn));
+                                                                                                roomAdded = true;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                    if (!roomAdded){
+                                                                                        System.out.println("Could not find room you selected!");
+                                                                                    }
+
+                                                                                    boolean exitAsking = true;
+                                                                                    //two choices depending on if the room list is greater then 0
+                                                                                    if (rooms.size() > 0) {
+                                                                                        do {
+                                                                                            System.out.print("Do you want to book another room? (y/n): ");
+                                                                                            String answer = input.nextLine();
+
+                                                                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                                                                exitAsking = false;
+                                                                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                                                                picking = false;
+                                                                                                exitAsking = false;
+                                                                                            } else {
+                                                                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                            }
+                                                                                        } while (exitAsking);
+                                                                                    }
+                                                                                    //if there are no rooms booked ask if they wish to cancel
+                                                                                    else {
+                                                                                        do {
+                                                                                            System.out.print("Do you want to cancel adding rooms to your booking? (y/n): ");
+                                                                                            String answer = input.nextLine();
+
+                                                                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                                                                picking = false;
+                                                                                                asking = false;
+                                                                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                                                                asking = false;
+                                                                                            } else {
+                                                                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                            }
+                                                                                        } while (asking);
+                                                                                    }
+                                                                                } while (picking);
+                                                                                break;
+
+                                                                            case 3:
+                                                                                //cancel
+                                                                                System.out.println("Save and returning");
+                                                                                //save all changes to the user that was being edited
+                                                                                c.getBooking(id).updateRoomList(b.getRoomList());
+                                                                                editing = false;
+                                                                                break;
+
+                                                                            case 4:
+                                                                                //cancel
+                                                                                System.out.println("Canceling changes");
+                                                                                editing = false;
+                                                                                break;
+
+                                                                            default:
+                                                                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
+                                                                                break;
+
+                                                                        }
+                                                                    } while (editing);
+                                                                    asking = false;
+                                                                }
+                                                                bID++;
+                                                            }
+                                                        }
+                                                        else {
+                                                            System.out.println("Query cancelled");
+                                                            asking = false;
+                                                        }
+                                                    }
+                                                    else {
+                                                        System.out.println("Incorrect input!");
+                                                    }
+                                                } while (asking);
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("Customer not found!");
+
+                                        //ask if they wish to cancel search
+                                        boolean askingTwo = true;
+                                        do {
+                                            System.out.print("Would you like to search again? (Y/N): ");
+                                            String answer = input.nextLine();
+
+                                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                askingTwo = false;
+                                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                checking = false;
+                                                askingTwo = false;
+                                            } else {
+                                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                            }
+                                        } while (askingTwo);
+                                    }
+                                } while (checking);
                                 break;
 
                             case 5:
@@ -725,9 +1087,20 @@ public class Main {
         System.out.println("|                                 |");
         System.out.println("|  1.) Check In customer          |");
         System.out.println("|  2.) Check Out customer         |");
-        System.out.println("|  3.) View booking               |");
-        System.out.println("|  4.) Change booking             |");
+        System.out.println("|  3.) View your bookings         |");
+        System.out.println("|  4.) Change rooms booked        |");
         System.out.println("|  5.) Return                     |");
+        System.out.println("-----------------------------------");
+    }
+
+    private void drawEditBookingMenu(){
+        System.out.println("___________________________________");
+        System.out.println("|   Edit options                  |");
+        System.out.println("|                                 |");
+        System.out.println("|  1.) Remove booked room         |");
+        System.out.println("|  2.) Add another room           |");
+        System.out.println("|  3.) Save changes and return    |");
+        System.out.println("|  3.) Cancel                     |");
         System.out.println("-----------------------------------");
     }
 }
