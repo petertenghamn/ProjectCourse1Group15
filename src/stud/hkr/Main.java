@@ -34,31 +34,53 @@ public class Main {
 
                     user = logic.getCustomer(ssnLoginPerOne);
 
-                    if (user != null) {
+                        if (user != null) {
 
-                        drawCustomerLoginMenu();
-                    }
-                    break;
+                            drawCustomerLoginMenu();
 
+                            System.out.print("\nSelect Action: ");
+                            int choiceCustomerLogIn = input.nextInt();
+                            input.nextLine();
+
+                            switch (choiceCustomerLogIn) {
+                                case 1:
+                                    drawCustomerReservationMenu();
+                                    break;
+
+                                case 2:
+                                    drawCustomerLoginMenu();
+
+                                    System.out.print("\nSelect Action: ");
+                                    int choice = input.nextInt();
+                                    input.nextLine();
+
+
+                                    break;
+                                default:
+                                    System.out.println("\nInvalid choice!\nPlease Enter A Valid Choice From The Options Above!\n");
+
+                            }
+                        }
+                        break;
 
                 case 2:
 
-                    System.out.println("\n* Please Enter The Following * ");
-                    System.out.println("Social Security Number: ");
-                    String newSsnPerOne = input.nextLine();
+                        System.out.println("\n* Please Enter The Following * ");
+                        System.out.println("Social Security Number: ");
+                        String newSsnPerOne = input.nextLine();
 
-                    System.out.println("Name: ");
-                    String newNamePerOne = input.nextLine();
+                        System.out.println("Name: ");
+                        String newNamePerOne = input.nextLine();
 
-                    System.out.println("Address: ");
-                    String newAddressPerOne = input.nextLine();
+                        System.out.println("Address: ");
+                        String newAddressPerOne = input.nextLine();
 
-                    System.out.println("Phone Number: ");
-                    String newPhoneNumberPerOne = input.nextLine();
+                        System.out.println("Phone Number: ");
+                        String newPhoneNumberPerOne = input.nextLine();
 
-                    drawNewCustomerMenu();
+                        drawNewCustomerMenu();
 
-                    break;
+                        break;
 
                 case 3:
                     boolean correctEmployeePassword = true;
@@ -604,6 +626,16 @@ public class Main {
         System.out.println("|                                     |");
         System.out.println("|  1.) Make A New Reservation         |");
         System.out.println("|  2.) Manage A Reservation           |");
+        System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawCustomerReservationMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|           Welcome Customer          |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) View A List Of Available Rooms |");
+        System.out.println("|  2.) Return                         |");
         System.out.println(" ------------------------------------- ");
     }
 
