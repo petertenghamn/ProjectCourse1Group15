@@ -38,6 +38,10 @@ public class Booking {
         return checkInDate;
     }
 
+    public Date getCheckOutDate() {
+        return checkOutDate;
+    }
+
     public void checkInCustomer(){
         for (Room r : roomList){
             if (!r.isBooked()) {
@@ -58,5 +62,30 @@ public class Booking {
 
     public boolean getCheckedOut(){
         return checkedOut;
+    }
+
+    public ArrayList<Room> getRoomList(){
+        return roomList;
+    }
+
+    public void removeRooms(ArrayList<Room> rl){
+        for (Room r : rl){
+            roomList.remove(r);
+        }
+    }
+
+    public void updateRoomList(ArrayList<Room> update){
+        //also change rooms booked to correspond to changes
+        for (Room r : roomList){//unbook any rooms that are removed
+            if (!update.contains(r)){
+                r.setBooked(false);
+            }
+        }
+        for (Room r : update){//book any rooms added
+            if (roomList.contains(r)){
+                r.setBooked(true);
+            }
+        }
+        roomList = update;
     }
 }
