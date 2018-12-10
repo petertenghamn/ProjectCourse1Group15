@@ -46,15 +46,41 @@ public class Main {
                         switch (choiceCustomerLogIn) {
                             case 1:
                                 drawCustomerReservationMenu();
+
+                                System.out.print("\n Select Action: ");
+                                int choiceCustomerViewRooms = input.nextInt();
+
+                                switch (choiceCustomerViewRooms) {
+                                    case 1:
+                                        for (Room r : logic.getAvailableRooms()) {
+                                            System.out.printf("%s%s%s%s%n",
+                                                    "Room [" + r.getRoomNumber() + "]",
+                                                    ", Beds: " + r.getNumberOfBeds(),
+                                                    ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                                    ", Cost Per Night: " + r.getPricePerNight());
+                                        } break;
+                                }
+
+                                System.out.print("\nSelect Which Room You Would Like To Book: ");
+                                int userMakeABooking = input.nextInt();
+
+                                switch (userMakeABooking) {
+                                    case 1:
+
+                                }
                                 break;
 
                             case 2:
-                                drawCustomerLoginMenu();
+                                drawCustomerManageAReservationMenu();
 
                                 System.out.print("\nSelect Action: ");
                                 int choice = input.nextInt();
                                 input.nextLine();
 
+                                switch (choice) {
+                                    case 1:
+
+                                }
 
                                 break;
                             default:
@@ -109,7 +135,7 @@ public class Main {
                     }
 
                     else if (username.equals(Username)) {
-                        System.out.println("Icorrect Password!");
+                        System.out.println("Incorrect Password!");
 
                     } else if (password.equals(Password)) {
                         System.out.println("Incorrect Username!");
@@ -631,6 +657,7 @@ public class Main {
         System.out.println("|                                     |");
         System.out.println("|  1.) Make A New Reservation         |");
         System.out.println("|  2.) Manage A Reservation           |");
+        System.out.println("|  2.) Return                         |");
         System.out.println(" ------------------------------------- ");
     }
 
@@ -644,6 +671,16 @@ public class Main {
         System.out.println(" ------------------------------------- ");
     }
 
+    private void drawCustomerManageAReservationMenu() {
+        System.out.println(" _______________________________________ ");
+        System.out.println("|           Welcome Customer            |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                       |");
+        System.out.println("|  1.) View A List Of Your Reservations |");
+        System.out.println("|  2.) Return                           |");
+        System.out.println(" --------------------------------------- ");
+    }
+
     private void drawNewCustomerMenu() {
         System.out.println(" _____________________________________ ");
         System.out.println("|        Welcome New Customer         |");
@@ -651,6 +688,7 @@ public class Main {
         System.out.println("|                                     |");
         System.out.println("|  1.) Make A Reservation             |");
         System.out.println("|  2.) View A List Of Available Rooms |");
+        System.out.println("|  2.) Return                         |");
         System.out.println(" ------------------------------------- ");
     }
 
@@ -701,6 +739,7 @@ public class Main {
         System.out.println("|                                             |");
         System.out.println("|  1.) Edit Customer                          |");
         System.out.println("|  2.) Remove Customer                        |");
+        System.out.println("|  2.) Return                                 |");
         System.out.println(" --------------------------------------------- ");
     }
 
@@ -730,6 +769,7 @@ public class Main {
         System.out.println("|                                                   |");
         System.out.println("|  1.) Edit Room                                    |");
         System.out.println("|  2.) Remove Room                                  |");
+        System.out.println("|  2.) Return                                       |");
         System.out.println(" --------------------------------------------------- ");
     }
 
@@ -738,10 +778,10 @@ public class Main {
         System.out.println("|         Booking Options         |");
         System.out.println("|- - - - - - - - - - - - - - - - -|");
         System.out.println("|                                 |");
-        System.out.println("|  1.) Check In customer          |");
-        System.out.println("|  2.) Check Out customer         |");
-        System.out.println("|  3.) View booking               |");
-        System.out.println("|  4.) Change booking             |");
+        System.out.println("|  1.) Check In Customer          |");
+        System.out.println("|  2.) Check Out Customer         |");
+        System.out.println("|  3.) View Bookings              |");
+        System.out.println("|  4.) Change Bookings            |");
         System.out.println("|  5.) Return                     |");
         System.out.println(" --------------------------------- ");
     }
