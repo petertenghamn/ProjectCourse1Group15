@@ -103,59 +103,69 @@ public class Main {
                                 break;
 
                             case 2:
-                                System.out.print("Please enter the customers SSN number:");
-                                String cEdit = input.nextLine();
+                                boolean asking3 = true;
+                                do {
+                                    System.out.print("Please enter the customers SSN number:");
+                                    String cEdit = input.nextLine();
 
-                                Customer cE = logic.getCustomer(cEdit);
+                                    Customer cE = logic.getCustomer(cEdit);
 
-                                if (cE != null) {
-                                    drawEditCustomerMenu(cE);
+                                    if (cE != null) {
+                                            int editSubMan = 0;
 
-                                    int editSub = input.nextInt();
-                                    int editSubMan = 0;
+                                            // This loop is so that if the user inputs something other than 1 or 2 they don't have to start all over
+                                            while (editSubMan == 0) {
+                                                int editSub = 0;
+                                                drawEditCustomerMenu(cE);
+                                                try {
+                                                    editSub = input.nextInt();
+                                                } catch(Exception ex)   {
+                                                    System.out.println("You must enter 1 or 2");
+                                                    input.nextLine();
+                                                }
+                                                switch (editSub) {
+                                                    case 1: // This checks to see if the user wants to edit the customer
+                                                        editSubMan = 1;
 
-                                    // This loop is so that if the user inputs something other than 1 or 2 they don't have to start all over
-                                    while (editSubMan == 0) {
-                                        switch (editSub) {
-                                            case 1: // This checks to see if the user wants to edit the customer
-                                                editSubMan = 1;
+                                                        input.nextLine(); // Fixes a  bug DO NOT DELETE
+                                                        // It currently runs through all the customers info change later into a submenu switch to change individual things
+                                                        System.out.print("Enter the customers new SSN: ");
+                                                        id = input.nextLine();
+                                                        System.out.print("Enter the customers new name: ");
+                                                        name = input.nextLine();
+                                                        System.out.print("Enter the customers new address: ");
+                                                        address = input.nextLine();
+                                                        System.out.print("Please enter the customers new telephone number: ");
+                                                        tele = input.nextLine();
+                                                        System.out.println();
 
-                                                input.nextLine(); // Fixes a  bug DO NOT DELETE
-                                                // It currently runs through all the customers info change later into a submenu switch to change individual things
-                                                System.out.print("Enter the customers new SSN: ");
-                                                id = input.nextLine();
-                                                System.out.print("Enter the customers new name: ");
-                                                name = input.nextLine();
-                                                System.out.print("Enter the customers new address: ");
-                                                address = input.nextLine();
-                                                System.out.print("Please enter the customers new telephone number: ");
-                                                tele = input.nextLine();
-                                                System.out.println();
+                                                        logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
+                                                        logic.addCustomer(id, name, address, tele);
 
-                                                logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
-                                                logic.addCustomer(id, name, address, tele);
+                                                        System.out.println("The Customer has been updated!");
+                                                        System.out.println("Returning you to customer manage menu");
+                                                        asking3 = false;
 
-                                                System.out.println("The Customer has been updated!");
-                                                System.out.println("Returning you to customer manage menu");
+                                                        break;
+                                                    case 2:
+                                                        editSubMan = 1;
 
-                                                break;
-                                            case 2:
-                                                editSubMan = 1;
+                                                        logic.removeCustomer(cEdit);
 
-                                                logic.removeCustomer(cEdit);
+                                                        System.out.println("Costumer has been deleted!");
+                                                        System.out.println("Returning you to customer manage menu");
+                                                        asking3 = false;
+                                                        break;
+                                                    default:
+                                                        System.out.println("That is not a valid choice");
+                                                        break;
+                                                }
+                                            }
 
-                                                System.out.println("Costumer has been deleted!");
-                                                System.out.println("Returning you to customer manage menu");
-                                                break;
-                                            default:
-                                                System.out.println("Enter only 1 or 2");
-                                                break;
-                                        }
+                                    } else {
+                                        System.out.println("Sorry that SSN is not registered to any customer");
                                     }
-                                } else {
-                                    System.out.println("Sorry that SSN is not registered to any customer");
-                                    System.out.println("Returning you to the customer manage menu");
-                                }
+                                } while (asking3);
                                 break;
 
                             case 3:
@@ -194,7 +204,7 @@ public class Main {
                                 break;
 
                             default:
-                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
+                                System.out.println("Invalid choice.\nPlease enter a valid choice between 1-5");
                                 break;
                         }
                     } catch (Exception ex) {
