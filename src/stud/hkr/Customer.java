@@ -52,7 +52,7 @@ public class Customer {
     }
 
     public Booking getBooking(int bID) {
-        Booking b = bookings.get(bID);
+        Booking b = bookings.get(bID - 1);
         if (b != null) {
             return b;
         }
