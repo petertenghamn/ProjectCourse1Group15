@@ -129,14 +129,50 @@ public class Main {
 
                                                         input.nextLine(); // Fixes a  bug DO NOT DELETE
                                                         // It currently runs through all the customers info change later into a submenu switch to change individual things
-                                                        System.out.print("Enter the customers new SSN: ");
-                                                        id = input.nextLine();
-                                                        System.out.print("Enter the customers new name: ");
-                                                        name = input.nextLine();
-                                                        System.out.print("Enter the customers new address: ");
-                                                        address = input.nextLine();
-                                                        System.out.print("Please enter the customers new telephone number: ");
-                                                        tele = input.nextLine();
+                                                        boolean asking5 = true;
+                                                        do {
+                                                            System.out.print("Enter the customers new SSN: ");
+                                                            id = input.nextLine();
+                                                            if (id.equals(""))  {
+                                                                System.out.println("You must enter the SSN");
+                                                            } else  {
+                                                                System.out.println("Saved");
+                                                                asking5 = false;
+                                                            }
+                                                        } while (asking5);
+                                                        asking5 = true;
+                                                        do {
+                                                            System.out.print("Enter the customers new name: ");
+                                                            name = input.nextLine();
+                                                            if (name.equals(""))    {
+                                                                System.out.println("You must enter a name");
+                                                            } else  {
+                                                                System.out.println("Saved");
+                                                                asking5 = false;
+                                                            }
+                                                        } while (asking5);
+                                                        asking5 = true;
+                                                        do {
+                                                            System.out.print("Enter the customers new address: ");
+                                                            address = input.nextLine();
+                                                            if (address.equals(""))   {
+                                                                System.out.println("You must enter an address");
+                                                            } else  {
+                                                                System.out.println("Saved");
+                                                                asking5 = false;
+                                                            }
+                                                        } while (asking5);
+                                                        asking5 = true;
+                                                        do {
+                                                            System.out.print("Please enter the customers new telephone number: ");
+                                                            tele = input.nextLine();
+                                                            if (tele.equals(""))   {
+                                                                System.out.println("You must enter a telephone number");
+                                                            } else  {
+                                                                System.out.println("Saved");
+                                                                asking5 = false;
+                                                            }
+                                                        } while (asking5);
                                                         System.out.println();
 
                                                         logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
