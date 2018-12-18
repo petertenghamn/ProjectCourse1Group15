@@ -126,26 +126,62 @@ public class Main {
                                                     switch (editSub) {
                                                         case 1: // This checks to see if the user wants to edit the customer
                                                             editSubMan = 1;
-
+                                                            boolean asking5 = true;
                                                             input.nextLine(); // Fixes a  bug DO NOT DELETE
                                                             // It currently runs through all the customers info change later into a submenu switch to change individual things
-                                                            System.out.print("Enter the customers new SSN: ");
-                                                            id = input.nextLine();
-                                                            System.out.print("Enter the customers new name: ");
-                                                            name = input.nextLine();
-                                                            System.out.print("Enter the customers new address: ");
-                                                            address = input.nextLine();
-                                                            System.out.print("Please enter the customers new telephone number: ");
-                                                            tele = input.nextLine();
-                                                            System.out.println();
+                                                            do {
+                                                                System.out.print("Enter the customers new SSN: ");
+                                                                id = input.nextLine();
+                                                                if (id.equals(""))   {
+                                                                    System.out.println("You must enter the customers SSN!");
+                                                                } else  {
+                                                                    System.out.println("Saved");
+                                                                    asking5 = false;
+                                                                }
+                                                            } while(asking5);
+
+                                                            asking5 = true;
+                                                            do {
+                                                                System.out.print("Enter the customers new name: ");
+                                                                name = input.nextLine();
+                                                                if (name.equals(""))    {
+                                                                    System.out.println("You must enter the customers name!");
+                                                                } else  {
+                                                                    System.out.println("Saved");
+                                                                    asking5 = false;
+                                                                }
+                                                            } while(asking5);
+
+                                                            asking5 = true;
+                                                            do {
+                                                                System.out.print("Enter the customers new address: ");
+                                                                address = input.nextLine();
+                                                                if (address.equals(""))   {
+                                                                    System.out.println("You must enter the customers address!");
+                                                                } else  {
+                                                                    System.out.println("Saved");
+                                                                    asking5 = false;
+                                                                }
+                                                            } while(asking5);
+
+                                                            asking5 = true;
+                                                            do {
+                                                                System.out.print("Please enter the customers new telephone number: ");
+                                                                tele = input.nextLine();
+                                                                if (tele.equals(""))   {
+                                                                    System.out.println("You must enter the customers telephone number!");
+                                                                } else  {
+                                                                    System.out.println("Saved");
+                                                                    asking5 = false;
+                                                                }
+                                                            } while (asking5);
 
                                                             logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
                                                             logic.addCustomer(id, name, address, tele);
 
-                                                            System.out.println("The Customer has been updated!");
-                                                            System.out.println("Returning you to customer manage menu");
+                                                            System.out.println("The customer has been updated!");
+                                                            System.out.println("Returning you to the customer menu");
                                                             asking3 = false;
-
                                                             break;
                                                         case 2:
                                                             editSubMan = 1;
@@ -161,7 +197,6 @@ public class Main {
                                                             break;
                                                     }
                                                 }
-
                                             } else {
                                                 System.out.println("Sorry that SSN is not registered to any customer");
                                             }
@@ -176,8 +211,6 @@ public class Main {
                                         for (int i = 0; i < customers.size(); i++) {
                                             System.out.println("Customer [" + customers.get(i).getName() + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                         }
-
-
                                         break;
 
                                     case 4:
