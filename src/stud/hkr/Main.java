@@ -989,8 +989,11 @@ public class Main {
                                         }
                                     } while (checking);
                                     break;
+                                case 5: // Save the bookings to a .txt file
 
-                                case 5:
+
+                                    break;
+                                case 6:
                                     //return to main menu
                                     System.out.println("Returning you to main menu");
                                     subMenu = false;
@@ -1092,7 +1095,8 @@ public class Main {
         System.out.println("|  2.) Check Out customer         |");
         System.out.println("|  3.) View your bookings         |");
         System.out.println("|  4.) Change rooms booked        |");
-        System.out.println("|  5.) Return                     |");
+        System.out.println("|  5.) Save Bookings to File      |");
+        System.out.println("|  6.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
