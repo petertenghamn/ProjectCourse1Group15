@@ -19,10 +19,6 @@ public class Booking {
         checkInDate = checkI;
         checkOutDate = checkO;
 
-        for (Room r : rooms){
-            totalPrice += r.getPricePerNight();
-        }
-
         checkedOut = false;
     }
 
@@ -31,6 +27,10 @@ public class Booking {
     }
 
     public double getTotalPrice() {
+        for (Room r : roomList){
+            totalPrice += r.getPricePerNight();
+        }
+
         return totalPrice;
     }
 
