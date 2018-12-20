@@ -1,5 +1,9 @@
 package stud.hkr;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1022,8 +1026,54 @@ public class Main {
                                         }
                                     } while (checking);
                                     break;
+                                case 5: // Save the bookings to a .txt file
+                                    try(PrintStream output = new PrintStream("Bookings.txt")){
+                                        int printing = 0;
+                                        int endless = 0;
 
-                                case 5:
+                                        // This loop is to search through 123456789 customers by converting an integer counter into a string *** TRY NOT TO MAKE A CUSTOMER WITH A HIGHER SSN THIS IS JUST A WORK AROUND TO PRINTING ALL BOOKINGS!!!!
+                                        while (endless <= 123456789){
+                                            String ssn = Integer.toString(endless);
+                                            endless++;
+
+                                            if (logic.getCustomer(ssn) != null) {
+
+
+                                                Customer c = logic.getCustomer(ssn);
+                                                ArrayList<Booking> bookings = c.getBookings();
+
+                                                if (bookings != null || bookings.size() > 0) {
+                                                    for (Booking b : bookings) {
+                                                        SimpleDateFormat strDateFromat = new SimpleDateFormat("YYYY-MM-DD");
+                                                        if (b.getCheckedOut()) {
+                                                            output.println("Booking Number: [" + b.getBookingId() + "]");
+                                                            output.println("Check-In Date:  [" + strDateFromat.format(b.getCheckInDate()) + "]");
+                                                            output.println("Check-Out Date: [" + strDateFromat.format(b.getCheckOutDate()) + "]");
+                                                            output.println("Booking Price:  [" + b.getTotalPrice() + "]");
+                                                        } else {
+                                                            output.println("Booking Number: [" + b.getBookingId() + "]");
+                                                            output.println("Check-In Date:  [" + strDateFromat.format(b.getCheckInDate()) + "]");
+                                                            output.println("Booking Price:  [" + b.getTotalPrice() + "]");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }catch(Exception txt){
+                                        System.out.println("Something went wrong returning you to the bookings menu!\n");
+                                    }
+                                    break;
+                                case 6:
+                                    File file = new File("Bookings.txt"); // Doesn't need a pathname as it is saved inside the project folder
+                                    if (file.delete()){
+                                        System.out.println("File Deleted!");
+                                        System.out.println("Returning you to bookings menu!");
+                                    }else{
+                                        System.out.println("File doesn't exist!");
+                                        System.out.println("Returning you to bookings menu!");
+                                    }
+                                    break;
+                                case 7:
                                     //return to main menu
                                     System.out.println("Returning you to main menu");
                                     subMenu = false;
@@ -1125,7 +1175,9 @@ public class Main {
         System.out.println("|  2.) Check Out customer         |");
         System.out.println("|  3.) View your bookings         |");
         System.out.println("|  4.) Change rooms booked        |");
-        System.out.println("|  5.) Return                     |");
+        System.out.println("|  5.) Save Bookings to File      |");
+        System.out.println("|  6.) Delete Bookings File       |");
+        System.out.println("|  7.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
