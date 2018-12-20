@@ -767,9 +767,8 @@ public class Main {
 
                                                         if (id > 0 && id <= count) {
                                                             if (id != count) {
-                                                                int bID = 1;
                                                                 for (Booking b : activeBookings) {
-                                                                    if (id == bID) {
+                                                                    if (id == b.getBookingId()) {
                                                                         boolean editing = true;
                                                                         int subChoiceEdit;
                                                                         do {
@@ -788,63 +787,52 @@ public class Main {
                                                                                         ArrayList<Room> removedRooms = new ArrayList<>();
                                                                                         boolean removing = true;
                                                                                         do {
-
-
                                                                                             //print all rooms
-                                                                                            /*int rCount = 1;
+                                                                                            System.out.println("[0]: Cancel");
                                                                                             for (Room r : rooms) {
                                                                                                 if (!removedRooms.contains(r)) {
-                                                                                                    System.out.println("[" + rCount + "] Room: " +
+                                                                                                    System.out.println("[" + r.getRoomNumber() + "] Room: " +
                                                                                                             "number of beds: " + r.getNumberOfBeds() +
                                                                                                             "price per night: " + r.getPricePerNight());
-                                                                                                    activeBookings.add(b);
-                                                                                                    rCount++;
                                                                                                 }
                                                                                             }
-                                                                                            System.out.println("[" + rCount + "]: Cancel");
 
                                                                                             //take in users choice
-                                                                                            System.out.println(" ");
-                                                                                            boolean remAsking = true;
-                                                                                            do {
-                                                                                                System.out.print("Which room would you like to remove?: ");
-                                                                                                int removeC = input.nextInt();
-                                                                                                input.nextLine();
+                                                                                            System.out.println();
+                                                                                            System.out.print("Which room would you like to remove?: ");
+                                                                                            int selection = input.nextInt();
+                                                                                            input.nextLine();
 
-                                                                                                if (removeC == rCount) {
-                                                                                                    remAsking = false;
-                                                                                                } else {
-                                                                                                    boolean found = false;
-                                                                                                    int fCount = 1;
-                                                                                                    for (Room r : rooms) {
-                                                                                                        if (!removedRooms.contains(r) && fCount == removeC) {
-                                                                                                            found = true;
-                                                                                                            removedRooms.add(r);
-                                                                                                        }
+                                                                                            if (selection == 0) {
+                                                                                                removing = false;
+                                                                                            } else {
+                                                                                                boolean roomFound = false;
+                                                                                                for (Room r : rooms) {
+                                                                                                    if (r.getRoomNumber() == selection) {
+                                                                                                        removedRooms.add(r);
+                                                                                                        roomFound = true;
                                                                                                     }
-                                                                                                    if (!found) {
-                                                                                                        System.out.println("Incorrect input! (1-" + rCount + ")");
-                                                                                                    }
-
-                                                                                                    System.out.print("Are you finished removing rooms from your booking? (y/n): ");
-                                                                                                    String answer = input.nextLine();
-
-                                                                                                    boolean asking5 = true;
-                                                                                                    do {
-                                                                                                        if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                                                                                                            remAsking = false;
-                                                                                                            removing = false;
-                                                                                                            asking5 = false;
-                                                                                                        } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                                                                                                            asking5 = false;
-                                                                                                        } else {
-                                                                                                            System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
-                                                                                                        }
-                                                                                                    } while (asking5);
                                                                                                 }
-                                                                                            } while (remAsking);*/
+                                                                                                if (!roomFound) {
+                                                                                                    System.out.println("Could not find room you selected!");
+                                                                                                }
 
+                                                                                                //ask if finished
+                                                                                                System.out.print("Would you like to remove another room? (y/n): ");
+                                                                                                String answer = input.nextLine();
 
+                                                                                                boolean asking5 = true;
+                                                                                                do {
+                                                                                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                                                                        asking5 = false;
+                                                                                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                                                                        removing = false;
+                                                                                                        asking5 = false;
+                                                                                                    } else {
+                                                                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                                    }
+                                                                                                } while (asking5);
+                                                                                            }
                                                                                         }
                                                                                         while (removing && rooms.size() > 0);
                                                                                         //give message if all rooms removed
@@ -940,7 +928,6 @@ public class Main {
                                                                                     break;
 
                                                                                 case 3:
-                                                                                    //cancel
                                                                                     System.out.println("Save and returning");
                                                                                     //save all changes to the user that was being edited
                                                                                     c.getBooking(id).updateRoomList(b.getRoomList());
@@ -961,7 +948,6 @@ public class Main {
                                                                         } while (editing);
                                                                         asking = false;
                                                                     }
-                                                                    bID++;
                                                                 }
                                                             } else {
                                                                 System.out.println("Query cancelled");
@@ -1108,7 +1094,7 @@ public class Main {
         System.out.println("|  1.) Remove booked room         |");
         System.out.println("|  2.) Add another room           |");
         System.out.println("|  3.) Save changes and return    |");
-        System.out.println("|  3.) Cancel                     |");
+        System.out.println("|  4.) Cancel                     |");
         System.out.println("-----------------------------------");
     }
 }
