@@ -1,0 +1,6 @@
+Booking Number: [1]
+Check-In Date:  [2018-12-354]
+Booking Price:  [1198.0]
+Booking Number: [1]
+Check-In Date:  [2018-12-354]
+Booking Price:  [599.0]

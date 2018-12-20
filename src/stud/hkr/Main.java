@@ -1,5 +1,7 @@
 package stud.hkr;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -990,8 +992,41 @@ public class Main {
                                     } while (checking);
                                     break;
                                 case 5: // Save the bookings to a .txt file
+                                    try(PrintStream output = new PrintStream("Bookings.txt")){
+                                        int printing = 0;
+                                        int endless = 0;
+
+                                        // This loop is to search through 123456789 customers by converting an integer counter into a string *** TRY NOT TO MAKE A CUSTOMER WITH A HIGHER SSN THIS IS JUST A WORK AROUND TO PRINTING ALL BOOKINGS!!!!
+                                        while (endless <= 123456789){
+                                            String ssn = Integer.toString(endless);
+                                            endless++;
+
+                                            if (logic.getCustomer(ssn) != null) {
 
 
+                                                Customer c = logic.getCustomer(ssn);
+                                                ArrayList<Booking> bookings = c.getBookings();
+
+                                                if (bookings != null || bookings.size() > 0) {
+                                                    for (Booking b : bookings) {
+                                                        SimpleDateFormat strDateFromat = new SimpleDateFormat("YYYY-MM-DD");
+                                                        if (b.getCheckedOut()) {
+                                                            output.println("Booking Number: [" + b.getBookingId() + "]");
+                                                            output.println("Check-In Date:  [" + strDateFromat.format(b.getCheckInDate()) + "]");
+                                                            output.println("Check-Out Date: [" + strDateFromat.format(b.getCheckOutDate()) + "]");
+                                                            output.println("Booking Price:  [" + b.getTotalPrice() + "]");
+                                                        } else {
+                                                            output.println("Booking Number: [" + b.getBookingId() + "]");
+                                                            output.println("Check-In Date:  [" + strDateFromat.format(b.getCheckInDate()) + "]");
+                                                            output.println("Booking Price:  [" + b.getTotalPrice() + "]");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }catch(Exception txt){
+                                        System.out.println("Something went wrong returning you to the bookings menu!\n");
+                                    }
                                     break;
                                 case 6:
                                     //return to main menu
