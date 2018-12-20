@@ -1,7 +1,9 @@
 package stud.hkr;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1029,6 +1031,16 @@ public class Main {
                                     }
                                     break;
                                 case 6:
+                                    File file = new File("Bookings.txt"); // Doesn't need a pathname as it is saved inside the project folder
+                                    if (file.delete()){
+                                        System.out.println("File Deleted!");
+                                        System.out.println("Returning you to bookings menu!");
+                                    }else{
+                                        System.out.println("File doesn't exist!");
+                                        System.out.println("Returning you to bookings menu!");
+                                    }
+                                    break;
+                                case 7:
                                     //return to main menu
                                     System.out.println("Returning you to main menu");
                                     subMenu = false;
@@ -1131,7 +1143,8 @@ public class Main {
         System.out.println("|  3.) View your bookings         |");
         System.out.println("|  4.) Change rooms booked        |");
         System.out.println("|  5.) Save Bookings to File      |");
-        System.out.println("|  6.) Return                     |");
+        System.out.println("|  6.) Delete Bookings File       |");
+        System.out.println("|  7.) Return                     |");
         System.out.println("-----------------------------------");
     }
 
