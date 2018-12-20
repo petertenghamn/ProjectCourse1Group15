@@ -24,7 +24,7 @@ public class Main {
             drawMenu();
 
             System.out.print("\nSelect Action: ");
-            try {
+            //try {
                 int choice = input.nextInt();
                 input.nextLine();
 
@@ -788,8 +788,10 @@ public class Main {
                                                                                         ArrayList<Room> removedRooms = new ArrayList<>();
                                                                                         boolean removing = true;
                                                                                         do {
+
+
                                                                                             //print all rooms
-                                                                                            int rCount = 1;
+                                                                                            /*int rCount = 1;
                                                                                             for (Room r : rooms) {
                                                                                                 if (!removedRooms.contains(r)) {
                                                                                                     System.out.println("[" + rCount + "] Room: " +
@@ -831,6 +833,7 @@ public class Main {
                                                                                                     do {
                                                                                                         if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
                                                                                                             remAsking = false;
+                                                                                                            removing = false;
                                                                                                             asking5 = false;
                                                                                                         } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
                                                                                                             asking5 = false;
@@ -839,9 +842,11 @@ public class Main {
                                                                                                         }
                                                                                                     } while (asking5);
                                                                                                 }
-                                                                                            } while (remAsking);
+                                                                                            } while (remAsking);*/
+
+
                                                                                         }
-                                                                                        while (removing || rooms.size() > 0);
+                                                                                        while (removing && rooms.size() > 0);
                                                                                         //give message if all rooms removed
                                                                                         if (rooms.size() < 1) {
                                                                                             System.out.println("All rooms removed!");
@@ -1013,10 +1018,10 @@ public class Main {
                         System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                         break;
                 }
-            } catch (Exception ex) {
-                System.out.println("Error!");
-                input.nextLine();
-            }
+            //} catch (Exception ex) {
+            //    System.out.println("Error!");
+            //    input.nextLine();
+            //}
         } while (running);
 
     }
