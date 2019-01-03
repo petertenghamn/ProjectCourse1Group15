@@ -18,17 +18,17 @@ public class HotelLogic {
         return null;
     }
 
-    public void removeCustomer(String customerSSN){
+    public void removeCustomer(String customerSSN) {
         // Searches through the array customers for the specific customer using the SSN
 
-            for (int i = 0; i < customers.size(); i++) {
-                if (customerSSN.equals(customers.get(i).getSsn())){
-                    customers.remove(i);
-                }
+        for (int i = 0; i < customers.size(); i++) {
+            if (customerSSN.equals(customers.get(i).getSsn())) {
+                customers.remove(i);
             }
+        }
     }
 
-    public ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers() {
         //get list of all Customers
         return customers;
     }
@@ -59,12 +59,12 @@ public class HotelLogic {
         return output;
     }
 
-    public boolean addCustomer(String id, String n, String a, String tn){
+    public boolean addCustomer(String id, String n, String a, String tn) {
         //add a customer to all current customers
         boolean exists = false;
-        for (int i = 0; i < customers.size(); i++)  {
-            if (customers.get(i).getSsn().equalsIgnoreCase(id))   {
-                exists=true;
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getSsn().equalsIgnoreCase(id)) {
+                exists = true;
             }
         }
         if (!exists) {
@@ -74,15 +74,15 @@ public class HotelLogic {
         return exists;
     }
 
-    public void addRoom(int nob, double ppn, boolean hb, boolean ib){
+    public void addRoom(int nob, double ppn, boolean hb, boolean ib) {
         //add a room to all current rooms
         int rn = 0;
         boolean exists;
         do {
             rn++;
             exists = false;
-            for (Room r : rooms)    {
-                if (r.getRoomNumber() == rn)   {
+            for (Room r : rooms) {
+                if (r.getRoomNumber() == rn) {
                     exists = true;
                 }
             }
@@ -92,11 +92,11 @@ public class HotelLogic {
         rooms.add(r);
     }
 
-    public void removeRoom(int roomNumber){
+    public void removeRoom(int roomNumber) {
         // Searches through the rooms array using the room number
 
         for (int i = 0; i < rooms.size(); i++) {
-            if (roomNumber == rooms.get(i).getRoomNumber()){
+            if (roomNumber == rooms.get(i).getRoomNumber()) {
                 rooms.remove(i);
             }
         }
@@ -180,6 +180,20 @@ public class HotelLogic {
         rooms.add(new Room(9, 1, 549, true, false));
         rooms.add(new Room(10, 2, 699, true, false));
 
+    }
+
+    public void generateCustomers() {
+
+        customers.add(new Customer("0000000000", "Nicole", "Streetway 0", "0700000000"));
+        customers.add(new Customer("0000000001", "Linus", "Streetway 1", "0700000001"));
+        customers.add(new Customer("0000000002", "Stephen", "Streetway 2", "0700000002"));
+        customers.add(new Customer("0000000003", "Peter", "Streetway 3", "0700000003"));
+        customers.add(new Customer("0000000004", "Öjvind", "Streetway 4", "0700000004"));
+        customers.add(new Customer("0000000005", "Alex", "Streetway 5", "0700000005"));
+        customers.add(new Customer("0000000006", "Jonas", "Streetway 6", "0700000006"));
+        customers.add(new Customer("0000000007", "Carl", "Streetway 7", "0700000007"));
+        customers.add(new Customer("0000000008", "Tobjörn", "Streetway 8", "070000008"));
+        customers.add(new Customer("0000000009", "India", "Streetway 9", "0700000009"));
     }
 
 }

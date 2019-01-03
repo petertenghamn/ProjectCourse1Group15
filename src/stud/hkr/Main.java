@@ -2,8 +2,6 @@ package stud.hkr;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +21,143 @@ public class Main {
         boolean running = true;
         HotelLogic logic = new HotelLogic();
         logic.generateRooms();
+        logic.generateCustomers();
+        Customer user;
 
         do {
-            drawMenu();
+            drawStartupMenu();
+            System.out.print("\nPlease Select An Action: ");
+            int choiceFirstPage = input.nextInt();
+            input.nextLine();
+
+            switch (choiceFirstPage) {
+                case 1:
+
+                    System.out.println("\n* Please Enter The Following * ");
+                    System.out.print("Social Security Number: ");
+                    String ssnLoginPerOne = input.nextLine();
+
+                    user = logic.getCustomer(ssnLoginPerOne);
+
+                    if (user != null) {
+
+                        drawCustomerLoginMenu();
+
+                        System.out.print("\nSelect Action: ");
+                        int choiceCustomerLogIn = input.nextInt();
+                        input.nextLine();
+
+                        switch (choiceCustomerLogIn) {
+                            case 1:
+                                drawCustomerReservationMenu();
+
+                                System.out.print("\n Select Action: ");
+                                int choiceCustomerViewRooms = input.nextInt();
+
+                                switch (choiceCustomerViewRooms) {
+                                    case 1:
+                                        for (Room r : logic.getAvailableRooms()) {
+                                            System.out.printf("%s%s%s%s%n",
+                                                    "Room [" + r.getRoomNumber() + "]",
+                                                    ", Beds: " + r.getNumberOfBeds(),
+                                                    ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                                    ", Cost Per Night: " + r.getPricePerNight());
+                                        } break;
+                                }
+
+                                System.out.print("\nSelect Which Room You Would Like To Book: ");
+                                int userMakeABooking = input.nextInt();
+
+                                switch (userMakeABooking) {
+                                    case 1:
+
+                                }
+                                break;
+
+                            case 2:
+                                drawCustomerManageAReservationMenu();
+
+                                System.out.print("\nSelect Action: ");
+                                int choice = input.nextInt();
+                                input.nextLine();
+
+                                switch (choice) {
+                                    case 1:
+
+                                }
+
+                                break;
+                            default:
+                                System.out.println("\nInvalid choice!\nPlease Enter A Valid Choice From The Options Above!\n");
+
+                        }
+                    }
+                    break;
+
+                case 2:
+
+                    System.out.println("\n* Please Enter The Following * ");
+                    System.out.println("Social Security Number: ");
+                    String newSsnPerOne = input.nextLine();
+
+                    System.out.println("Name: ");
+                    String newNamePerOne = input.nextLine();
+
+                    System.out.println("Address: ");
+                    String newAddressPerOne = input.nextLine();
+
+                    System.out.println("Phone Number: ");
+                    String newPhoneNumberPerOne = input.nextLine();
+
+                    drawNewCustomerMenu();
+
+                    break;
+
+                case 3:
+
+                    String Username;
+                    String Password;
+
+                    Password = "admin";
+                    Username = "admin";
+
+
+                    drawAdminLogin();
+                    Scanner inputAdminUser = new Scanner(System.in);
+                    System.out.print("| Enter Username : ");
+                    String username = inputAdminUser.next();
+
+                    Scanner inputAdminPassword = new Scanner(System.in);
+                    System.out.print("| Enter Password : ");
+                    String password = inputAdminPassword.next();
+
+                    if (username.equals(Username) && password.equals(Password)) {
+
+                        System.out.println(" ------------------------------------- ");
+                        System.out.println("\nAccess Granted! Welcome!");
+                        drawAdminMenu();
+                    }
+
+                    else if (username.equals(Username)) {
+                        System.out.println("Incorrect Password!");
+
+                    } else if (password.equals(Password)) {
+                        System.out.println("Incorrect Username!");
+
+                    } else {
+                        System.out.println("Incorrect Username & Password!");
+                    } break;
+
+                case 4:
+                    System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+                    System.out.println("Please Enter A Choice Between 1-5");
+                    break;
+            }
 
             System.out.print("\nSelect Action: ");
             //try {
@@ -1095,46 +1227,117 @@ public class Main {
 
     }
 
-    private void drawMenu() {
 
-        System.out.println("___________________________________");
-        System.out.println("|   Welcome Dear Employee         |");
-        System.out.println("|                                 |");
-        System.out.println("|  1.) Manage Customers           |");
-        System.out.println("|  2.) Manage Rooms               |");
-        System.out.println("|  3.) Manage Bookings            |");
-        System.out.println("|  4.) Exit                       |");
-        System.out.println("-----------------------------------");
+    private void drawStartupMenu() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|       Please Select An Option       |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Customer Login                 |");
+        System.out.println("|  2.) New Costumer                   |");
+        System.out.println("|  3.) Login As Admin                 |");
+        System.out.println("|  4.) Exit                           |");
+        System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawCustomerLoginMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|           Welcome Customer          |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Make A New Reservation         |");
+        System.out.println("|  2.) Manage A Reservation           |");
+        System.out.println("|  2.) Return                         |");
+        System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawCustomerReservationMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|           Welcome Customer          |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) View A List Of Available Rooms |");
+        System.out.println("|  2.) Return                         |");
+        System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawCustomerManageAReservationMenu() {
+        System.out.println(" _______________________________________ ");
+        System.out.println("|           Welcome Customer            |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                       |");
+        System.out.println("|  1.) View A List Of Your Reservations |");
+        System.out.println("|  2.) Return                           |");
+        System.out.println(" --------------------------------------- ");
+    }
+
+    private void drawNewCustomerMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|        Welcome New Customer         |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Make A Reservation             |");
+        System.out.println("|  2.) View A List Of Available Rooms |");
+        System.out.println("|  2.) Return                         |");
+        System.out.println(" ------------------------------------- ");
+    }
+
+    private void drawAdminLogin() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|        Welcome Dear Employee        |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+    }
+
+    private void drawAdminMenu() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|        Welcome Dear Employee        |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Manage Customers               |");
+        System.out.println("|  2.) Manage Rooms                   |");
+        System.out.println("|  3.) Manage Bookings                |");
+        System.out.println("|  4.) Exit                           |");
+        System.out.println(" -------------------------------------");
     }
 
     //sub menu for certain options
-    private void drawCustomerMenu(){
-        System.out.println("___________________________________");
-        System.out.println("|   Customer options              |");
-        System.out.println("|                                 |");
-        System.out.println("|  1.) Add customer               |");
-        System.out.println("|  2.) Edit / Remove customer     |");
-        System.out.println("|  3.) View all customers         |");
-        System.out.println("|  4.) View specific customer     |");
-        System.out.println("|  5.) Return                     |");
-        System.out.println("-----------------------------------");
-    }
-    // Sub Menu of Customer Menu
-    private void drawEditCustomerMenu(Customer cE){
-        System.out.println("___________________________________");
-        System.out.println("|                                 |");
-        System.out.println("|  Name: " + cE.getName());
-        System.out.println("|  Address: " + cE.getAddress());
-        System.out.println("|  Telephone: " + cE.getTelephoneNumber());
-        System.out.println("|                                 |");
-        System.out.println("|  1.) Edit Customer              |");
-        System.out.println("|  2.) Remove Customer            |");
-        System.out.println("-----------------------------------");
+    private void drawCustomerMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|          Customer Options           |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Add customer                   |");
+        System.out.println("|  2.) Edit / Remove customer         |");
+        System.out.println("|  3.) View all customers             |");
+        System.out.println("|  4.) View specific customer         |");
+        System.out.println("|  5.) Return                         |");
+        System.out.println(" ------------------------------------- ");
     }
 
-    private void drawRoomMenu(){
-        System.out.println("___________________________________");
-        System.out.println("|   Room options                  |");
+    // Sub Menu of Customer Menu
+    private void drawEditCustomerMenu(Customer cE) {
+        System.out.println(" _____________________________________________ ");
+        System.out.println("|               Customer Options              |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                             |");
+        System.out.println("|  Name: " + cE.getName() + "|");
+        System.out.println("|  Address: " + cE.getAddress() + "|");
+        System.out.println("|  Telephone: " + cE.getTelephoneNumber() + "|");
+        System.out.println("|                                             |");
+        System.out.println("|  1.) Edit Customer                          |");
+        System.out.println("|  2.) Remove Customer                        |");
+        System.out.println("|  2.) Return                                 |");
+        System.out.println(" --------------------------------------------- ");
+    }
+
+    private void drawRoomMenu() {
+        System.out.println(" _________________________________ ");
+        System.out.println("|          Room Options           |");
+        System.out.println("|- - - - - - - - - - - - - - - - -|");
         System.out.println("|                                 |");
         System.out.println("|  1.) Add room                   |");
         System.out.println("|  2.) Edit / Remove Room         |");
@@ -1142,25 +1345,29 @@ public class Main {
         System.out.println("|  4.) View all rooms             |");
         System.out.println("|  5.) View available rooms       |");
         System.out.println("|  6.) Return                     |");
-        System.out.println("-----------------------------------");
-    }
-    // Sub Menu of Room Menu
-    private void drawEditRoomMenu(Room eRoom){
-        System.out.println("___________________________________");
-        System.out.println("|                                 |");
-        System.out.println("|  Room Number: " + eRoom.getRoomNumber());
-        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds());
-        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony());
-        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight());  // No formatting on the double might need to change later
-        System.out.println("|                                 |");
-        System.out.println("|  1.) Edit Room                  |");
-        System.out.println("|  2.) Remove Room                |");
-        System.out.println("-----------------------------------");
+        System.out.println(" --------------------------------- ");
     }
 
-    private void drawCheckInOutMenu(){
-        System.out.println("___________________________________");
-        System.out.println("|   Booking options               |");
+    // Sub Menu of Room Menu
+    private void drawEditRoomMenu(Room eRoom) {
+        System.out.println(" ___________________________________________________ ");
+        System.out.println("|                    Room Options                   |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|  Room Number: " + eRoom.getRoomNumber() + "|");
+        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds() + "|");
+        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony() + "|");
+        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight() + "|");  // No formatting on the double might need to change later
+        System.out.println("|                                                   |");
+        System.out.println("|  1.) Edit Room                                    |");
+        System.out.println("|  2.) Remove Room                                  |");
+        System.out.println("|  2.) Return                                       |");
+        System.out.println(" --------------------------------------------------- ");
+    }
+
+    private void drawCheckInOutMenu() {
+        System.out.println(" _________________________________ ");
+        System.out.println("|         Booking Options         |");
+        System.out.println("|- - - - - - - - - - - - - - - - -|");
         System.out.println("|                                 |");
         System.out.println("|  1.) Check In customer          |");
         System.out.println("|  2.) Check Out customer         |");
