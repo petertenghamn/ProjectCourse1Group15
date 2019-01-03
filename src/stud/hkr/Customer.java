@@ -1,18 +1,22 @@
 package stud.hkr;
 
+import java.util.ArrayList;
+
 public class Customer {
 
     private String ssn;
     private String name;
     private String address;
     private String telephoneNumber;
-    private Booking booking;
+    private ArrayList<Booking> bookings;
 
     public Customer(String id, String n, String a, String tn) {
         ssn = id;
         name = n;
         address = a;
         telephoneNumber = tn;
+
+        bookings = new ArrayList<>();
     }
 
     public String getSsn() {
@@ -32,17 +36,26 @@ public class Customer {
     }
 
     public void checkIn(Booking b){
-        if (booking != null){ checkOut(booking); } // temporary fix so a person doesn't permanently lock a room as booked
-        booking = b;
-        booking.checkInCustomer();
+        bookings.add(b);
+        b.checkInCustomer();
     }
 
-    public void checkOut(Booking b){
-        booking = null;
-        b.checkOutCustomer();
+    public ArrayList<Booking> getBookings(){
+        return bookings;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public void checkOut(int bID){
+        Booking b = bookings.get(bID);
+        if (b != null){
+            b.checkOutCustomer();
+        }
+    }
+
+    public Booking getBooking(int bID) {
+        Booking b = bookings.get(bID - 1);
+        if (b != null) {
+            return b;
+        }
+        return null;
     }
 }

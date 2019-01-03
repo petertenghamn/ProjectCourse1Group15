@@ -121,7 +121,7 @@ public class HotelLogic {
         }
     }
 
-    public boolean checkOutCustomer(String ssn, Booking b) {
+    public boolean checkOutCustomer(String ssn, int bID) {
         //check out a customer out of a room currently used
         Customer customer = null;
         for (Customer c : customers) {
@@ -130,21 +130,31 @@ public class HotelLogic {
             }
         }
 
-        if (customer != null && b != null) {
+        if (customer != null) {
             //remove booking from customer after checkout
-            customer.checkOut(b);
-
+            customer.checkOut(bID);
             return true;
         } else {
             return false;
         }
     }
 
-    public Booking ViewBooking(String ssn) {
+    public ArrayList<Booking> ViewAllBookings(String ssn){
+        ArrayList<Booking> b = new ArrayList<>();
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                b.addAll(c.getBookings());
+            }
+        }
+
+        return b; //can return empty
+    }
+
+    public Booking ViewBooking(String ssn, int bID){
         Booking b = null;
-        for (Customer c : customers) {
-            if (c.getSsn().equals(ssn)) {
-                b = c.getBooking();
+        for (Customer c : customers){
+            if (c.getSsn().equals(ssn)){
+                b = c.getBooking(bID);
             }
         }
 
