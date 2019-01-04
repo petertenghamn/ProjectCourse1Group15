@@ -92,6 +92,10 @@ public class Main {
 
                         }
                     }
+                    else {
+                        System.out.println("You have not entered correct login details! ");
+                        System.out.println("Returning you to the Main Menu!");
+                    }
                     break;
 
                 case 2:
