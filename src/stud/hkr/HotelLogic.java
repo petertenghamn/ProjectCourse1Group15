@@ -184,16 +184,17 @@ public class HotelLogic {
 
     public void generateCustomers() {
 
-        customers.add(new Customer("0000000000", "Nicole", "Streetway 0", "0700000000"));
-        customers.add(new Customer("0000000001", "Linus", "Streetway 1", "0700000001"));
-        customers.add(new Customer("0000000002", "Stephen", "Streetway 2", "0700000002"));
-        customers.add(new Customer("0000000003", "Peter", "Streetway 3", "0700000003"));
-        customers.add(new Customer("0000000004", "Öjvind", "Streetway 4", "0700000004"));
-        customers.add(new Customer("0000000005", "Alex", "Streetway 5", "0700000005"));
-        customers.add(new Customer("0000000006", "Jonas", "Streetway 6", "0700000006"));
-        customers.add(new Customer("0000000007", "Carl", "Streetway 7", "0700000007"));
-        customers.add(new Customer("0000000008", "Tobjörn", "Streetway 8", "070000008"));
-        customers.add(new Customer("0000000009", "India", "Streetway 9", "0700000009"));
+        customers.add(new Customer( "1", "Test", "123 RandomStreet", "555-555-55555"));
+        customers.add(new Customer("1155335488", "Nicole", "Streetway 0", "0700000000"));
+        customers.add(new Customer("2225545663", "Linus", "Streetway 1", "0700000001"));
+        customers.add(new Customer("3356455586", "Stephen", "Streetway 2", "0700000002"));
+        customers.add(new Customer("3556488669", "Peter", "Streetway 3", "0700000003"));
+        customers.add(new Customer("5512335889", "Öjvind", "Streetway 4", "0700000004"));
+        customers.add(new Customer("9956513358", "Alex", "Streetway 5", "0700000005"));
+        customers.add(new Customer("8553215542", "Jonas", "Streetway 6", "0700000006"));
+        customers.add(new Customer("8855665512", "Carl", "Streetway 7", "0700000007"));
+        customers.add(new Customer("1122665454", "Tobjörn", "Streetway 8", "070000008"));
+        customers.add(new Customer("2223302200", "India", "Streetway 9", "0700000009"));
     }
 
 }

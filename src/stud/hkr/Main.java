@@ -10,18 +10,32 @@ import java.util.Scanner;
 // This is the greatest comment ever. If you don't chose this you are a poopy head.
 
 public class Main {
+
     private Scanner input = new Scanner(System.in);
+    private HotelLogic logic = new HotelLogic();
+
 
     public static void main(String[] args) {
         Main hotelApp = new Main();
         hotelApp.runProgram();
     }
 
+    private void drawStartupMenu() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|       Please Select An Option       |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Customer Login                 |");
+        System.out.println("|  2.) New Costumer                   |");
+        System.out.println("|  3.) Login As Admin                 |");
+        System.out.println("|  4.) Exit                           |");
+        System.out.println(" ------------------------------------- ");
+    }
+
     private void runProgram() {
+
         boolean running = true;
-        HotelLogic logic = new HotelLogic();
-        logic.generateRooms();
-        logic.generateCustomers();
         Customer user;
 
         do {
@@ -40,76 +54,74 @@ public class Main {
                     user = logic.getCustomer(ssnLoginPerOne);
 
                     if (user != null) {
-
-                        drawCustomerLoginMenu();
-
-                        System.out.print("\nSelect Action: ");
-                        int choiceCustomerLogIn = input.nextInt();
-                        input.nextLine();
-
-                        switch (choiceCustomerLogIn) {
-                            case 1:
-                                drawCustomerReservationMenu();
-
-                                System.out.print("\n Select Action: ");
-                                int choiceCustomerViewRooms = input.nextInt();
-
-                                switch (choiceCustomerViewRooms) {
-                                    case 1:
-                                        for (Room r : logic.getAvailableRooms()) {
-                                            System.out.printf("%s%s%s%s%n",
-                                                    "Room [" + r.getRoomNumber() + "]",
-                                                    ", Beds: " + r.getNumberOfBeds(),
-                                                    ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
-                                                    ", Cost Per Night: " + r.getPricePerNight());
-                                        } break;
-                                }
-
-                                System.out.print("\nSelect Which Room You Would Like To Book: ");
-                                int userMakeABooking = input.nextInt();
-
-                                switch (userMakeABooking) {
-                                    case 1:
-
-                                }
-                                break;
-
-                            case 2:
-                                drawCustomerManageAReservationMenu();
-
-                                System.out.print("\nSelect Action: ");
-                                int choice = input.nextInt();
-                                input.nextLine();
-
-                                switch (choice) {
-                                    case 1:
-
-                                }
-
-                                break;
-                            default:
-                                System.out.println("\nInvalid choice!\nPlease Enter A Valid Choice From The Options Above!\n");
-
-                        }
+                        runUserProgram(user);
+                    }
+                    else {
+                        System.out.println("You have not entered correct login details! ");
+                        System.out.println("Returning you to the Main Menu!");
                     }
                     break;
 
-                case 2:
+                case 2: // Creates a new customer and then returns to main menu
 
                     System.out.println("\n* Please Enter The Following * ");
-                    System.out.println("Social Security Number: ");
-                    String newSsnPerOne = input.nextLine();
 
-                    System.out.println("Name: ");
-                    String newNamePerOne = input.nextLine();
+                    boolean asking = true;
+                    String id;
+                    do {
+                        System.out.print("Please enter the customers social security number: ");
+                        id = input.nextLine();
+                        if (id.equals("")) {
+                            System.out.println("You must enter a social security number");
+                        } else {
+                            System.out.println("Saved"); //this input needs to be checked to make sure its a unique key later
+                            asking = false;
+                        }
+                    } while (asking);
 
-                    System.out.println("Address: ");
-                    String newAddressPerOne = input.nextLine();
+                    asking = true;
+                    String name;
+                    do {
+                        System.out.print("Please enter the customers name: ");
+                        name = input.nextLine();
+                        if (name.equals("")) {
+                            System.out.println("You must enter a name");
+                        } else {
+                            System.out.println("Saved");
+                            asking = false;
+                        }
+                    } while (asking);
 
-                    System.out.println("Phone Number: ");
-                    String newPhoneNumberPerOne = input.nextLine();
+                    asking = true;
+                    String address;
+                    do {
+                        System.out.print("Please enter the customers address: ");
+                        address = input.nextLine();
+                        if (address.equals("")) {
+                            System.out.println("You must enter an address");
+                        } else {
+                            System.out.println("Saved");
+                            asking = false;
+                        }
+                    } while (asking);
 
-                    drawNewCustomerMenu();
+                    asking = true;
+                    String tele;
+                    do {
+                        System.out.print("Please enter the customers telephone number: ");
+                        tele = input.nextLine();
+                        if (tele.equals("")) {
+                            System.out.println("You must enter a number");
+                        } else {
+                            System.out.println("Saved");
+                            asking = false;
+                        }
+                    } while (asking);
+
+                    boolean exists = logic.addCustomer(id, name, address, tele);
+                    if (exists) {
+                        System.out.println("Customer already exists!");
+                    }
 
                     break;
 
@@ -121,32 +133,30 @@ public class Main {
                     Password = "admin";
                     Username = "admin";
 
-
-                    drawAdminLogin();
-                    Scanner inputAdminUser = new Scanner(System.in);
                     System.out.print("| Enter Username : ");
-                    String username = inputAdminUser.next();
+                    String inUsername = input.nextLine();
 
-                    Scanner inputAdminPassword = new Scanner(System.in);
                     System.out.print("| Enter Password : ");
-                    String password = inputAdminPassword.next();
+                    String inPassword = input.nextLine();
 
-                    if (username.equals(Username) && password.equals(Password)) {
+                    if (inUsername.equals(Username) && inPassword.equals(Password)) {
 
                         System.out.println(" ------------------------------------- ");
                         System.out.println("\nAccess Granted! Welcome!");
-                        drawAdminMenu();
+
+                        runAdminProgram();
                     }
 
-                    else if (username.equals(Username)) {
+                    else if (inUsername.equals(Username)) {
                         System.out.println("Incorrect Password!");
 
-                    } else if (password.equals(Password)) {
+                    } else if (inPassword.equals(Password)) {
                         System.out.println("Incorrect Username!");
 
                     } else {
                         System.out.println("Incorrect Username & Password!");
-                    } break;
+                    }
+                    break;
 
                 case 4:
                     System.out.println("\nThank You For Using Our Booking Service!\nHave A Wonderful Day.");
@@ -159,8 +169,272 @@ public class Main {
                     break;
             }
 
+        } while (running);
+
+    }
+
+    // This is the USER side of the program
+    private void runUserProgram(Customer user){
+
+        // Things used in the ENTIRE method
+        boolean userRunning = true;
+
+
+        do {
+
+            String userName = user.getName();
+            String ssn = user.getSsn();
+
+            drawUserMainMenu(userName);
+            int userMainChoice = input.nextInt();
+
+            switch (userMainChoice){
+                case 1: // Edit User's information
+
+                    drawEditYourselfMenu();
+
+                    String id, name, address, tele;
+                    String cEdit = user.getSsn();
+
+                    input.nextLine(); // Fixes a  bug DO NOT DELETE
+                    // It currently runs through all the customers info change later into a submenu switch to change individual things
+                    System.out.print("Enter your SSN: ");
+                    id = input.nextLine();
+                    System.out.print("Enter your name: ");
+                    name = input.nextLine();
+                    System.out.print("Enter your address: ");
+                    address = input.nextLine();
+                    System.out.print("Please your telephone number: ");
+                    tele = input.nextLine();
+                    System.out.println();
+
+                    logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
+                    logic.addCustomer(id, name, address, tele);
+
+                    user = logic.getCustomer(id);
+
+                    System.out.println("Your Information has been updated!");
+                    break;
+                case 2: // View Available Rooms
+
+                    ArrayList<Room> aRooms = logic.getAvailableRooms();
+
+                    //print all rooms
+                    for (Room r : aRooms) {
+                        System.out.printf("%s%s%s%s%n",
+                                "Room [" + r.getRoomNumber() + "]",
+                                ", Beds: " + r.getNumberOfBeds(),
+                                ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                ", Cost Per Night: " + r.getPricePerNight());
+                    }
+
+                    break;
+                case 3: // Check in
+                    ArrayList<Room> rooms = new ArrayList<>();
+                    ArrayList<Room> availableRooms = logic.getAvailableRooms();
+
+
+
+                    //prints all available rooms that have not already been chosen
+                    boolean picking = true;
+                    do {
+                        for (Room r : availableRooms) {
+                            boolean inBooking = false;
+                            for (Room r2 : rooms) {
+                                if (r.getRoomNumber() == r2.getRoomNumber()) {
+                                    inBooking = true;
+                                }
+                            }
+                            if (!inBooking) {
+                                System.out.printf("%s%s%s%s%n",
+                                        "Room [" + r.getRoomNumber() + "]",
+                                        ", Beds: " + r.getNumberOfBeds(),
+                                        ", Has balcony: " + (r.getHasBalcony() ? "Yes" : "No"),
+                                        ", Cost Per Night: " + r.getPricePerNight());
+                            }
+                        }
+                        System.out.printf("%n%s", "Please enter the room number you would like to book: ");
+                        int rn = input.nextInt();
+                        input.nextLine();
+
+                        //checks that the rn doesnt belong to a room already selected or that doesnt exist
+                        boolean roomAdded = false;
+                        for (Room r : availableRooms) {
+                            if (r.getRoomNumber() == rn) {
+                                boolean inBooking = false;
+                                for (Room r2 : rooms) {
+                                    if (r2.getRoomNumber() == rn) {
+                                        inBooking = true;
+                                    }
+                                }
+                                if (!inBooking) {
+                                    rooms.add(logic.getRoom(rn));
+                                    roomAdded = true;
+                                }
+                            }
+                        }
+                        if (!roomAdded) {
+                            System.out.println("Could not find room you selected!");
+                        }
+
+                        boolean asking = true;
+                        //two choices depending on if the room list is greater then 0
+                        if (rooms.size() > 0) {
+                            do {
+                                System.out.print("Do you want to book another room? (y/n): ");
+                                String answer = input.nextLine();
+
+                                if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                    asking = false;
+                                } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                    picking = false;
+                                    asking = false;
+                                } else {
+                                    System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                }
+                            } while (asking);
+                        }
+                        //if there are no rooms booked ask if they wish to cancel
+                        else {
+                            do {
+                                System.out.print("Do you want to cancel your booking? (y/n): ");
+                                String answer = input.nextLine();
+
+                                if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                    picking = false;
+                                    asking = false;
+                                } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                    asking = false;
+                                } else {
+                                    System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                }
+                            } while (asking);
+                        }
+                    } while (picking);
+
+                    //creates booking if there are rooms to book, otherwise unnecessary
+                    if (rooms.size() > 0) {
+                        //create a new booking for the customer
+                        int newBookingID = logic.getCustomer(ssn).getBookings().size() + 1;
+                        Booking b = new Booking(newBookingID, rooms, new Date(), new Date());
+
+                        //complete the process
+                        logic.checkInCustomer(ssn, b);
+                    }
+                    break;
+                case 4: // Check out
+
+                    if (logic.getCustomer(ssn) != null) {
+
+                        Customer c = logic.getCustomer(ssn);
+                        ArrayList<Booking> bookings = c.getBookings();
+
+                        if (bookings.size() > 0) {
+                            ArrayList<Booking> activeBookings = new ArrayList<>();
+
+                            int count = 1;
+                            for (Booking b : bookings) {
+                                if (!b.getCheckedOut()) {
+                                    SimpleDateFormat strDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                                    System.out.println("[" + count + "] Booking: " +
+                                            "Checked-in: " + strDateFormat.format(b.getCheckInDate()));
+                                    activeBookings.add(b);
+                                    count++;
+                                }
+                            }
+                            System.out.println("[" + count + "]: Cancel");
+
+                            if (activeBookings.size() > 0) {
+                                boolean asking = true;
+                                do {
+                                    System.out.print("Please enter the choice of the booking you would like to check out from: ");
+                                    int userCheckout = input.nextInt();
+                                    input.nextLine();
+
+                                    if (userCheckout > 0 && userCheckout <= count) {
+                                        if (userCheckout != count) {
+                                            int bID = 1;
+                                            for (Booking b : activeBookings) {
+                                                if (userCheckout == bID) {
+                                                    //complete the process to check out selected booking
+                                                    b.checkOutCustomer();
+                                                    asking = false;
+                                                }
+                                                bID++;
+                                            }
+                                        } else {
+                                            System.out.println("Query cancelled");
+                                            asking = false;
+                                        }
+                                    } else {
+                                        System.out.println("Incorrect input!");
+                                    }
+                                } while (asking);
+                            }
+                        }
+                    } else {
+                        System.out.println("Customer not found!");
+
+                        //ask if they wish to cancel search
+                        boolean askingTwo = true;
+                        do {
+                            System.out.print("Would you like to search again? (Y/N): ");
+                            String answer = input.nextLine();
+
+                            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                askingTwo = false;
+                            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                askingTwo = false;
+                            } else {
+                                System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                            }
+                        } while (askingTwo);
+                    }
+                    break;
+                case 5: // Exit the User Program
+                    userRunning = false;
+                    System.out.println("Thank you for Coming and Using the Self Help Station!");
+                    break;
+            }
+
+        }while (userRunning);
+
+    }
+
+    private void drawUserMainMenu(String user){
+        System.out.println("___________________________________");
+        System.out.println("|     Welcome " + user + "!");
+        System.out.println("|- - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                 |");
+        System.out.println("|  1.) Edit Your Information      |");
+        System.out.println("|  2.) View Available Rooms       |");
+        System.out.println("|  3.) Check In                   |");
+        System.out.println("|  4.) Check Out                  |");
+        System.out.println("|  5.) Exit                       |");
+        System.out.println("|                                 |");
+        System.out.println("-----------------------------------");
+
+    }
+
+    private void drawEditYourselfMenu(){
+        System.out.println("___________________________________________________");
+        System.out.println("|   Please Re - Enter All your Information       |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - - - - - - - |");
+    }
+
+    // This is the ADMIN side of the program EVERY method AFTER this is used by the ADMIN!
+    private void runAdminProgram(){
+
+        // Things used in the ENTIRE method!
+        boolean running = true;
+        logic.generateRooms();
+        logic.generateCustomers();
+
+        do {
+            drawAdminMenu();
+
             System.out.print("\nSelect Action: ");
-            //try {
+            try {
                 int choice = input.nextInt();
                 input.nextLine();
 
@@ -262,62 +536,26 @@ public class Main {
                                                     switch (editSub) {
                                                         case 1: // This checks to see if the user wants to edit the customer
                                                             editSubMan = 1;
-                                                            boolean asking5 = true;
+
                                                             input.nextLine(); // Fixes a  bug DO NOT DELETE
                                                             // It currently runs through all the customers info change later into a submenu switch to change individual things
-                                                            do {
-                                                                System.out.print("Enter the customers new SSN: ");
-                                                                id = input.nextLine();
-                                                                if (id.equals(""))   {
-                                                                    System.out.println("You must enter the customers SSN!");
-                                                                } else  {
-                                                                    System.out.println("Saved");
-                                                                    asking5 = false;
-                                                                }
-                                                            } while(asking5);
-
-                                                            asking5 = true;
-                                                            do {
-                                                                System.out.print("Enter the customers new name: ");
-                                                                name = input.nextLine();
-                                                                if (name.equals(""))    {
-                                                                    System.out.println("You must enter the customers name!");
-                                                                } else  {
-                                                                    System.out.println("Saved");
-                                                                    asking5 = false;
-                                                                }
-                                                            } while(asking5);
-
-                                                            asking5 = true;
-                                                            do {
-                                                                System.out.print("Enter the customers new address: ");
-                                                                address = input.nextLine();
-                                                                if (address.equals(""))   {
-                                                                    System.out.println("You must enter the customers address!");
-                                                                } else  {
-                                                                    System.out.println("Saved");
-                                                                    asking5 = false;
-                                                                }
-                                                            } while(asking5);
-
-                                                            asking5 = true;
-                                                            do {
-                                                                System.out.print("Please enter the customers new telephone number: ");
-                                                                tele = input.nextLine();
-                                                                if (tele.equals(""))   {
-                                                                    System.out.println("You must enter the customers telephone number!");
-                                                                } else  {
-                                                                    System.out.println("Saved");
-                                                                    asking5 = false;
-                                                                }
-                                                            } while (asking5);
+                                                            System.out.print("Enter the customers new SSN: ");
+                                                            id = input.nextLine();
+                                                            System.out.print("Enter the customers new name: ");
+                                                            name = input.nextLine();
+                                                            System.out.print("Enter the customers new address: ");
+                                                            address = input.nextLine();
+                                                            System.out.print("Please enter the customers new telephone number: ");
+                                                            tele = input.nextLine();
+                                                            System.out.println();
 
                                                             logic.removeCustomer(cEdit); // Currently deletes the customer and makes it again
                                                             logic.addCustomer(id, name, address, tele);
 
-                                                            System.out.println("The customer has been updated!");
-                                                            System.out.println("Returning you to the customer menu");
+                                                            System.out.println("The Customer has been updated!");
+                                                            System.out.println("Returning you to customer manage menu");
                                                             asking3 = false;
+
                                                             break;
                                                         case 2:
                                                             editSubMan = 1;
@@ -333,6 +571,7 @@ public class Main {
                                                             break;
                                                     }
                                                 }
+
                                             } else {
                                                 System.out.println("Sorry that SSN is not registered to any customer");
                                             }
@@ -347,6 +586,8 @@ public class Main {
                                         for (int i = 0; i < customers.size(); i++) {
                                             System.out.println("Customer [" + customers.get(i).getName() + "]: " + "Telephone Number: " + customers.get(i).getTelephoneNumber() + " Address: " + customers.get(i).getAddress() + " SSN: " + customers.get(i).getSsn());
                                         }
+
+
                                         break;
 
                                     case 4:
@@ -936,8 +1177,9 @@ public class Main {
 
                                                         if (id > 0 && id <= count) {
                                                             if (id != count) {
+                                                                int bID = 1;
                                                                 for (Booking b : activeBookings) {
-                                                                    if (id == b.getBookingId()) {
+                                                                    if (id == bID) {
                                                                         boolean editing = true;
                                                                         int subChoiceEdit;
                                                                         do {
@@ -957,53 +1199,59 @@ public class Main {
                                                                                         boolean removing = true;
                                                                                         do {
                                                                                             //print all rooms
-                                                                                            System.out.println("[0]: Cancel");
+                                                                                            int rCount = 1;
                                                                                             for (Room r : rooms) {
                                                                                                 if (!removedRooms.contains(r)) {
-                                                                                                    System.out.println("[" + r.getRoomNumber() + "] Room: " +
+                                                                                                    System.out.println("[" + rCount + "] Room: " +
                                                                                                             "number of beds: " + r.getNumberOfBeds() +
                                                                                                             "price per night: " + r.getPricePerNight());
+                                                                                                    activeBookings.add(b);
+                                                                                                    rCount++;
                                                                                                 }
                                                                                             }
+                                                                                            System.out.println("[" + rCount + "]: Cancel");
 
                                                                                             //take in users choice
-                                                                                            System.out.println();
-                                                                                            System.out.print("Which room would you like to remove?: ");
-                                                                                            int selection = input.nextInt();
-                                                                                            input.nextLine();
+                                                                                            System.out.println(" ");
+                                                                                            boolean remAsking = true;
+                                                                                            do {
+                                                                                                System.out.print("Which room would you like to remove?: ");
+                                                                                                int removeC = input.nextInt();
+                                                                                                input.nextLine();
 
-                                                                                            if (selection == 0) {
-                                                                                                removing = false;
-                                                                                            } else {
-                                                                                                boolean roomFound = false;
-                                                                                                for (Room r : rooms) {
-                                                                                                    if (r.getRoomNumber() == selection) {
-                                                                                                        removedRooms.add(r);
-                                                                                                        roomFound = true;
+                                                                                                if (removeC == rCount) {
+                                                                                                    remAsking = false;
+                                                                                                } else {
+                                                                                                    boolean found = false;
+                                                                                                    int fCount = 1;
+                                                                                                    for (Room r : rooms) {
+                                                                                                        if (!removedRooms.contains(r) && fCount == removeC) {
+                                                                                                            found = true;
+                                                                                                            removedRooms.add(r);
+                                                                                                        }
                                                                                                     }
-                                                                                                }
-                                                                                                if (!roomFound) {
-                                                                                                    System.out.println("Could not find room you selected!");
-                                                                                                }
-
-                                                                                                //ask if finished
-                                                                                                System.out.print("Would you like to remove another room? (y/n): ");
-                                                                                                String answer = input.nextLine();
-
-                                                                                                boolean asking5 = true;
-                                                                                                do {
-                                                                                                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                                                                                                        asking5 = false;
-                                                                                                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                                                                                                        removing = false;
-                                                                                                        asking5 = false;
-                                                                                                    } else {
-                                                                                                        System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                                    if (!found) {
+                                                                                                        System.out.println("Incorrect input! (1-" + rCount + ")");
                                                                                                     }
-                                                                                                } while (asking5);
-                                                                                            }
+
+                                                                                                    System.out.print("Are you finished removing rooms from your booking? (y/n): ");
+                                                                                                    String answer = input.nextLine();
+
+                                                                                                    boolean asking5 = true;
+                                                                                                    do {
+                                                                                                        if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                                                                                                            remAsking = false;
+                                                                                                            asking5 = false;
+                                                                                                        } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                                                                                                            asking5 = false;
+                                                                                                        } else {
+                                                                                                            System.out.println("Incorrect input! Please answer with 'yes' or 'no'.");
+                                                                                                        }
+                                                                                                    } while (asking5);
+                                                                                                }
+                                                                                            } while (remAsking);
                                                                                         }
-                                                                                        while (removing && rooms.size() > 0);
+                                                                                        while (removing || rooms.size() > 0);
                                                                                         //give message if all rooms removed
                                                                                         if (rooms.size() < 1) {
                                                                                             System.out.println("All rooms removed!");
@@ -1097,6 +1345,7 @@ public class Main {
                                                                                     break;
 
                                                                                 case 3:
+                                                                                    //cancel
                                                                                     System.out.println("Save and returning");
                                                                                     //save all changes to the user that was being edited
                                                                                     c.getBooking(id).updateRoomList(b.getRoomList());
@@ -1117,6 +1366,7 @@ public class Main {
                                                                         } while (editing);
                                                                         asking = false;
                                                                     }
+                                                                    bID++;
                                                                 }
                                                             } else {
                                                                 System.out.println("Query cancelled");
@@ -1219,121 +1469,46 @@ public class Main {
                         System.out.println("Invalid choice.\nPlease enter a valid choice between 1-4");
                         break;
                 }
-            //} catch (Exception ex) {
-            //    System.out.println("Error!");
-            //    input.nextLine();
-            //}
+            } catch (Exception ex) {
+                System.out.println("Error!");
+                input.nextLine();
+            }
         } while (running);
 
     }
 
-
-    private void drawStartupMenu() {
-
-        System.out.println(" _____________________________________ ");
-        System.out.println("|       Please Select An Option       |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) Customer Login                 |");
-        System.out.println("|  2.) New Costumer                   |");
-        System.out.println("|  3.) Login As Admin                 |");
-        System.out.println("|  4.) Exit                           |");
-        System.out.println(" ------------------------------------- ");
-    }
-
-    private void drawCustomerLoginMenu() {
-        System.out.println(" _____________________________________ ");
-        System.out.println("|           Welcome Customer          |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) Make A New Reservation         |");
-        System.out.println("|  2.) Manage A Reservation           |");
-        System.out.println("|  2.) Return                         |");
-        System.out.println(" ------------------------------------- ");
-    }
-
-    private void drawCustomerReservationMenu() {
-        System.out.println(" _____________________________________ ");
-        System.out.println("|           Welcome Customer          |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) View A List Of Available Rooms |");
-        System.out.println("|  2.) Return                         |");
-        System.out.println(" ------------------------------------- ");
-    }
-
-    private void drawCustomerManageAReservationMenu() {
-        System.out.println(" _______________________________________ ");
-        System.out.println("|           Welcome Customer            |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                       |");
-        System.out.println("|  1.) View A List Of Your Reservations |");
-        System.out.println("|  2.) Return                           |");
-        System.out.println(" --------------------------------------- ");
-    }
-
-    private void drawNewCustomerMenu() {
-        System.out.println(" _____________________________________ ");
-        System.out.println("|        Welcome New Customer         |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) Make A Reservation             |");
-        System.out.println("|  2.) View A List Of Available Rooms |");
-        System.out.println("|  2.) Return                         |");
-        System.out.println(" ------------------------------------- ");
-    }
-
-    private void drawAdminLogin() {
-
-        System.out.println(" _____________________________________ ");
-        System.out.println("|        Welcome Dear Employee        |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-    }
-
-    private void drawAdminMenu() {
-
-        System.out.println(" _____________________________________ ");
-        System.out.println("|        Welcome Dear Employee        |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) Manage Customers               |");
-        System.out.println("|  2.) Manage Rooms                   |");
-        System.out.println("|  3.) Manage Bookings                |");
-        System.out.println("|  4.) Exit                           |");
-        System.out.println(" -------------------------------------");
-    }
-
-    //sub menu for certain options
-    private void drawCustomerMenu() {
-        System.out.println(" _____________________________________ ");
-        System.out.println("|          Customer Options           |");
-        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|                                     |");
-        System.out.println("|  1.) Add customer                   |");
-        System.out.println("|  2.) Edit / Remove customer         |");
-        System.out.println("|  3.) View all customers             |");
-        System.out.println("|  4.) View specific customer         |");
-        System.out.println("|  5.) Return                         |");
-        System.out.println(" ------------------------------------- ");
+    // Sub menu of Bookings
+    private void drawEditBookingMenu(){
+        System.out.println("___________________________________");
+        System.out.println("|          Booking Options        |");
+        System.out.println("|- - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                 |");
+        System.out.println("|  1.) Remove booked room         |");
+        System.out.println("|  2.) Add another room           |");
+        System.out.println("|  3.) Save changes and return    |");
+        System.out.println("|  4.) Cancel                     |");
+        System.out.println("|                                 |");
+        System.out.println("-----------------------------------");
     }
 
     // Sub Menu of Customer Menu
     private void drawEditCustomerMenu(Customer cE) {
         System.out.println(" _____________________________________________ ");
-        System.out.println("|               Customer Options              |");
+        System.out.println("|               Customer Edit Options         |");
         System.out.println("|- - - - - - - - - - - - - - - - - - - - - - -|");
         System.out.println("|                                             |");
-        System.out.println("|  Name: " + cE.getName() + "|");
-        System.out.println("|  Address: " + cE.getAddress() + "|");
-        System.out.println("|  Telephone: " + cE.getTelephoneNumber() + "|");
+        System.out.println("|  Name: " + cE.getName() + "                 |");
+        System.out.println("|  Address: " + cE.getAddress() + "           |");
+        System.out.println("|  Telephone: " + cE.getTelephoneNumber() + " |");
         System.out.println("|                                             |");
         System.out.println("|  1.) Edit Customer                          |");
         System.out.println("|  2.) Remove Customer                        |");
         System.out.println("|  2.) Return                                 |");
+        System.out.println("|                                             |");
         System.out.println(" --------------------------------------------- ");
     }
 
+    // Room Menu
     private void drawRoomMenu() {
         System.out.println(" _________________________________ ");
         System.out.println("|          Room Options           |");
@@ -1345,25 +1520,28 @@ public class Main {
         System.out.println("|  4.) View all rooms             |");
         System.out.println("|  5.) View available rooms       |");
         System.out.println("|  6.) Return                     |");
+        System.out.println("|                                 |");
         System.out.println(" --------------------------------- ");
     }
 
     // Sub Menu of Room Menu
     private void drawEditRoomMenu(Room eRoom) {
         System.out.println(" ___________________________________________________ ");
-        System.out.println("|                    Room Options                   |");
+        System.out.println("|                    Room Edit Options              |");
         System.out.println("|- - - - - - - - - - - - - - - - - - - - - - - - - -|");
-        System.out.println("|  Room Number: " + eRoom.getRoomNumber() + "|");
-        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds() + "|");
-        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony() + "|");
-        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight() + "|");  // No formatting on the double might need to change later
+        System.out.println("|  Room Number: " + eRoom.getRoomNumber() + "       |");
+        System.out.println("|  Number of Beds: " + eRoom.getNumberOfBeds() + "  |");
+        System.out.println("|  Has Balcony: " + eRoom.getHasBalcony() + "       |");
+        System.out.println("|  Cost per Night: " + eRoom.getPricePerNight() + " |");  // No formatting on the double might need to change later
         System.out.println("|                                                   |");
         System.out.println("|  1.) Edit Room                                    |");
         System.out.println("|  2.) Remove Room                                  |");
         System.out.println("|  2.) Return                                       |");
+        System.out.println("|                                                   |");
         System.out.println(" --------------------------------------------------- ");
     }
 
+    // Bookings Menu
     private void drawCheckInOutMenu() {
         System.out.println(" _________________________________ ");
         System.out.println("|         Booking Options         |");
@@ -1376,17 +1554,37 @@ public class Main {
         System.out.println("|  5.) Save Bookings to File      |");
         System.out.println("|  6.) Delete Bookings File       |");
         System.out.println("|  7.) Return                     |");
+        System.out.println("|                                 |");
         System.out.println("-----------------------------------");
     }
 
-    private void drawEditBookingMenu(){
-        System.out.println("___________________________________");
-        System.out.println("|   Edit options                  |");
-        System.out.println("|                                 |");
-        System.out.println("|  1.) Remove booked room         |");
-        System.out.println("|  2.) Add another room           |");
-        System.out.println("|  3.) Save changes and return    |");
-        System.out.println("|  4.) Cancel                     |");
-        System.out.println("-----------------------------------");
+    // Main Menu for the Admin
+    private void drawAdminMenu() {
+
+        System.out.println(" _____________________________________ ");
+        System.out.println("|        Welcome Dear Employee        |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Manage Customers               |");
+        System.out.println("|  2.) Manage Rooms                   |");
+        System.out.println("|  3.) Manage Bookings                |");
+        System.out.println("|  4.) Exit                           |");
+        System.out.println("|                                     |");
+        System.out.println(" -------------------------------------");
+    }
+
+    // Customer Menu
+    private void drawCustomerMenu() {
+        System.out.println(" _____________________________________ ");
+        System.out.println("|          Customer Options           |");
+        System.out.println("|- - - - - - - - - - - - - - - - - - -|");
+        System.out.println("|                                     |");
+        System.out.println("|  1.) Add customer                   |");
+        System.out.println("|  2.) Edit / Remove customer         |");
+        System.out.println("|  3.) View all customers             |");
+        System.out.println("|  4.) View specific customer         |");
+        System.out.println("|  5.) Return                         |");
+        System.out.println("|                                     |");
+        System.out.println(" ------------------------------------- ");
     }
 }
